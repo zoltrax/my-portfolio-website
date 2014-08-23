@@ -4,7 +4,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/appwidget_bg_focused" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -17,12 +18,14 @@
             android:orientation="vertical"
             android:padding="10dp" >
 
-            <ToggleButton
+            <ImageButton
                 android:id="@+id/toggleButton1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:layout_gravity="right"
-                android:text="ToggleButton" />
+                android:text="ToggleButton"
+                android:scaleType="fitCenter"
+                android:background="@drawable/power_off" />
         </LinearLayout>
 
         <LinearLayout
@@ -36,55 +39,67 @@
             <Button
                 android:id="@+id/button6"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:text="@string/label_flashlight_screen" />
+                android:text="@string/label_flashlight_screen"
+                android:textColor="@color/Orange"
+                android:background="@drawable/appwidget_bg_clickable" />
 
             <Button
                 android:id="@+id/button1"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:paddingTop="3dp"
-                android:text="@string/label_strobe_light" />
+                android:text="@string/label_strobe_light"
+                android:textColor="@color/Orange"
+                android:background="@drawable/appwidget_bg_clickable" />
 
             <Button
                 android:id="@+id/button2"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:paddingTop="3dp"
-                android:text="@string/label_strobe_screen" />
+                android:text="@string/label_strobe_screen"
+                android:textColor="@color/Orange"
+                android:background="@drawable/appwidget_bg_clickable" />
 
             <Button
                 android:id="@+id/button3"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:paddingTop="3dp"
-                android:text="@string/label_morse" />
+                android:text="@string/label_morse"
+                android:textColor="@color/Orange"
+                android:background="@drawable/appwidget_bg_clickable" />
 
             <Button
                 android:id="@+id/button4"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:paddingTop="3dp"
-                android:text="@string/label_warning" />
+                android:text="@string/label_warning"
+                android:textColor="@color/Orange"
+                android:background="@drawable/appwidget_bg_clickable" />
 
             <Button
                 android:id="@+id/button5"
                 style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:paddingTop="3dp"
-                android:text="@string/label_police" />
+                android:text="@string/label_police"
+                android:textColor="@color/Orange"
+                android:background="@drawable/appwidget_bg_clickable" />
         </LinearLayout>
     </LinearLayout>
 

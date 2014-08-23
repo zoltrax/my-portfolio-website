@@ -1,12 +1,20 @@
 package gbernat.flashlight;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import gbernat.flashlight.AppWidgetProvider;
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +23,9 @@ import android.widget.RemoteViews;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 	
-	
+	public static String CLOCK_WIDGET_UPDATE = "gbernat.flashlight.8BITCLOCK_WIDGET_UPDATE";
+	private static final DateFormat df = new SimpleDateFormat("hh:mm:ss");
+
 	 
 	  public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
 	    final int N = appWidgetIds.length;
@@ -35,11 +45,15 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
            
             receiver.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, receiver, 0);
+            
+            Intent intent2 = new Intent(context, Main.class);
+            PendingIntent pendingIntent2 = PendingIntent.getActivity(context, 0, intent2, 0);
 
             // Get the layout for the App Widget and attach an on-click listener
             // to the button//
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay);
             views.setOnClickPendingIntent(R.id.imageButton2, pendingIntent);
+            views.setOnClickPendingIntent(R.id.buttonGoToApp, pendingIntent2);
             
             for (int appWidgetId2 : appWidgetIds) {
             	Bundle options=appWidgetManager.getAppWidgetOptions(appWidgetId2);
@@ -52,6 +66,38 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
         }	    
 	    
 	  }
+	  
+		@Override
+		public void onReceive(Context context, Intent intent) {
+		super.onReceive(context, intent);
+		if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
+		//Log.d(LOG_TAG, "Clock update");
+		// Get the widget manager and ids for this widget provider, then call the shared
+		// clock update method.
+		ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
+		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+		int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
+		for (int appWidgetID: ids) {
+		updateAppWidget(context, appWidgetManager, appWidgetID, intent);
+		}
+		}
+		}
+		
+		public static void updateAppWidget(Context context,	AppWidgetManager appWidgetManager, int appWidgetId, Intent intent) {
+			String currentTime = df.format(new Date());
+			//int currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            //int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+			Intent batteryIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
+            
+			RemoteViews updateViews = new RemoteViews(context.getPackageName(),	R.layout.ofappwidgetlay);
+			updateViews.setTextViewText(R.id.textViewBatterySt, ""+level+" %");
+			updateViews.setTextViewText(R.id.textViewActualTime, "actual time: "+currentTime);
+			appWidgetManager.updateAppWidget(appWidgetId, updateViews);
+			}
+		
+		
+		
 	  
 	  @Override
 	  public void onAppWidgetOptionsChanged(Context context,
@@ -123,6 +169,33 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 		ComponentName myWidget = new ComponentName(context, AppWidgetProvider.class);
 	    AppWidgetManager manager = AppWidgetManager.getInstance(context);
 	    manager.updateAppWidget(myWidget, remoteViews);
+	}
+	
+	private PendingIntent createClockTickIntent(Context context) {
+	    Intent intent = new Intent(CLOCK_WIDGET_UPDATE);
+	    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    return pendingIntent;
+	}
+	
+	@Override
+	public void onEnabled(Context context) {
+	        super.onEnabled(context);
+	       // Log.d(LOG_TAG, "Widget Provider enabled.  Starting timer to update widget every second");
+	        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+	 
+	        Calendar calendar = Calendar.getInstance();
+	        calendar.setTimeInMillis(System.currentTimeMillis());
+	        calendar.add(Calendar.SECOND, 2);
+	        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000
+	, createClockTickIntent(context));
+	}
+	 
+	@Override
+	public void onDisabled(Context context) {
+	        super.onDisabled(context);
+	      //  Log.d(LOG_TAG, "Widget Provider disabled. Turning off timer");
+	        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+	        alarmManager.cancel(createClockTickIntent(context));
 	}
 	  
 

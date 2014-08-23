@@ -18,7 +18,7 @@
  -->
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
         <LinearLayout
@@ -33,13 +33,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Flashlight" 
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_marginBottom="5dp"/>
 
             <ImageButton
                 android:id="@+id/imageButton2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/power_on"
+               
+                android:background="@drawable/power_off"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 android:scaleType="fitCenter"
                  />
 
@@ -53,7 +55,7 @@
         <LinearLayout
             android:id="@+id/layoutOnOff"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingLeft="7dp" >
 
@@ -64,11 +66,30 @@
                 android:text="Battery status:" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textViewBatterySt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="3dp"
+                android:text="99%" />
+
+            <Button
+                android:id="@+id/buttonGoToApp"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="  go to app  "
+                android:layout_gravity="bottom"
+                android:background="@drawable/appwidget_bg_clickable"
+                android:textColor="@color/Orange"
+                 />
+
+            <TextView
+                android:id="@+id/textViewActualTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="99%"
-                android:paddingTop="5dp" />
+                android:text="ddd"
+                android:visibility="gone"
+                 />
 
         </LinearLayout>
 

@@ -5,7 +5,8 @@
     android:layout_height="fill_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="20dp" >
+    android:padding="20dp"
+    android:background="@drawable/appwidget_bg_focused" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +17,8 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enter message:" />
+            android:text="Enter message:"
+            android:textColor="@color/Red" />
 
         <EditText
             android:id="@+id/morseCodeEditText"
@@ -37,40 +39,49 @@
         <Button
             android:id="@+id/button1"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
             android:onClick="translate"
-            android:text="Translate message" />
+            android:text="Translate message"
+            android:background="@drawable/appwidget_bg_clickable"
+            android:textColor="@color/Orange" />
 
         <TextView
             android:id="@+id/showMorseTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:textColor="@color/Red" />
 
         <Button
             android:id="@+id/button2"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
             android:onClick="startLights"
-            android:text="start lights" />
+            android:text="start lights"
+            android:background="@drawable/appwidget_bg_clickable"
+            android:textColor="@color/Orange" />
 
         <Button
             android:id="@+id/button3"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
             android:onClick="stopLights"
-            android:text="stop lights" />
+            android:text="stop lights"
+            android:background="@drawable/appwidget_bg_clickable"
+            android:textColor="@color/Orange" />
 
         <Button
             android:id="@+id/button4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
             android:layout_marginTop="50dp"
             android:onClick="sos"
-            android:text="@string/label_sos" />
+            android:text="@string/label_sos"
+            android:background="@drawable/appwidget_bg_clickable"
+            android:textColor="@color/Orange" />
     </LinearLayout>
 
 </LinearLayout>

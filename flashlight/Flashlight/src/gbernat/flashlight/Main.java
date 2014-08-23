@@ -13,12 +13,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class Main extends Activity implements OnClickListener {
 
-	ToggleButton onOff;
+	ImageButton onOff;
 
 	Button btn1;
 	Button btn2;
@@ -35,7 +36,7 @@ public class Main extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		onOff = (ToggleButton) findViewById(R.id.toggleButton1);
+		onOff = (ImageButton) findViewById(R.id.toggleButton1);
 
 		btn1 = (Button) findViewById(R.id.button1);
 		btn2 = (Button) findViewById(R.id.button2);
@@ -45,7 +46,7 @@ public class Main extends Activity implements OnClickListener {
 		btn6 = (Button) findViewById(R.id.button6);
 
 		onOff.setOnClickListener(this);
-		onOff.setChecked(false);
+		//onOff.setChecked(false);
 
 		btn1.setOnClickListener(this);
 		btn2.setOnClickListener(this);
@@ -61,7 +62,7 @@ public class Main extends Activity implements OnClickListener {
 
 		if (v == onOff) {
 
-			if (onOff.isChecked()) {
+			if (camera == null) {
 				setFlashOn();
 			} else {
 				setFlashOff();
@@ -75,7 +76,7 @@ public class Main extends Activity implements OnClickListener {
 				camera = null;
 			}
 
-			onOff.setChecked(false);
+			//onOff.setChecked(false);
 			Intent strobeLight = new Intent(this, StrobeLight.class);
 			startActivity(strobeLight);
 
@@ -119,12 +120,17 @@ public class Main extends Activity implements OnClickListener {
 		parameters = camera.getParameters();
 		parameters.setFlashMode(Parameters.FLASH_MODE_TORCH);
 		camera.setParameters(parameters);
+		onOff.setImageResource(R.drawable.power_on);
 	}
 
 	private void setFlashOff() {
 		parameters = camera.getParameters();
 		parameters.setFlashMode(Parameters.FLASH_MODE_OFF);
 		camera.setParameters(parameters);
+		camera.stopPreview();
+		camera.release();
+		camera = null;
+		onOff.setImageResource(R.drawable.power_off);
 	}
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,

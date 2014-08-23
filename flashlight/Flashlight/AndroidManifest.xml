@@ -66,6 +66,8 @@
         <receiver android:name="AppWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="gbernat.flashlight.8BITCLOCK_WIDGET_UPDATE" >
+                </action>
             </intent-filter>
 
             <meta-data
@@ -78,8 +80,7 @@
                 </action>
                 <action android:name="gbernat.flashlight.intent.action.CHANGE_PICTURE" >
                 </action>
-                <action android:name="gbernat.flashlight.8BITCLOCK_WIDGET_UPDATE" >
-                </action>
+                
             </intent-filter>
         </receiver>
 

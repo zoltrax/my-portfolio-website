@@ -1,7 +1,10 @@
 package gbernat.flashlight;
 
-import gbernat.flashlight.AppWidgetProvider;
+import java.util.Calendar;
 
+import gbernat.flashlight.AppWidgetProvider;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -16,6 +19,7 @@ import android.widget.Toast;
 public class FlashlightWidgetReceiver extends BroadcastReceiver {
     private static boolean isLightOn = false;
     private static Camera camera;
+    
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -74,5 +78,7 @@ public class FlashlightWidgetReceiver extends BroadcastReceiver {
 		
 		AppWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
 	}
+    
+	
     
 }
