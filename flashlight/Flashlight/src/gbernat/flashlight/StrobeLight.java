@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import gbernat.flashlight.R;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
@@ -61,8 +63,12 @@ public class StrobeLight extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.strobe_light);
 
+		try{
 		cam = Camera.open();
 		params = cam.getParameters();
+		}catch(Exception e){
+			showDialog();
+		}
 
 		onOff = (ToggleButton) findViewById(R.id.toggleButton_on_off);
 
@@ -174,14 +180,15 @@ public class StrobeLight extends Activity implements OnClickListener {
 		/**
 		 * Release Camera
 		 */
-		// isFlashOn = false;
-		// if (cam != null) {
-		// cam.release();
-		// cam = null;
-		// }
-		// onOff.setChecked(false);
-		// cam.stopPreview();
-		// cam.release();
+		
+		mHandler.removeCallbacks(mRunnable);
+		if(cam!=null){
+		cam.stopPreview();
+		cam.release();
+		cam = null;
+		}
+	
+		finish();
 	}
 
 	@Override
@@ -243,6 +250,32 @@ public class StrobeLight extends Activity implements OnClickListener {
 
 		}
 
+	}
+	
+	public void showDialog() {
+		AlertDialog alertDialog = new AlertDialog.Builder(StrobeLight.this).create();
+
+		// Setting Dialog Title
+		alertDialog.setTitle("Flashlight");
+		//alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//alertDialog.setContentView(R.layout.appwidgetlay);
+
+		// Setting Dialog Message
+		alertDialog.setMessage("Your camera is busy, perhaps another App or Widget uses it. Please turn off.");
+
+		// Setting Icon to Dialog
+		// alertDialog.setIcon(R.drawable.tick);
+
+		// Setting OK Button
+		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				// Write your code here to execute after dialog closed
+				finish();
+			}
+		});
+
+		// Showing Alert Message
+		alertDialog.show();
 	}
 
 }

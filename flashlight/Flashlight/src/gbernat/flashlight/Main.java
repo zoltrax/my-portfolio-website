@@ -4,17 +4,23 @@ import java.io.IOException;
 
 import gbernat.flashlight.R;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+import android.media.CameraProfile;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 public class Main extends Activity implements OnClickListener {
@@ -27,6 +33,7 @@ public class Main extends Activity implements OnClickListener {
 	Button btn4;
 	Button btn5;
 	Button btn6;
+	
 
 	private static Camera camera;
 	private static Parameters parameters;
@@ -46,7 +53,7 @@ public class Main extends Activity implements OnClickListener {
 		btn6 = (Button) findViewById(R.id.button6);
 
 		onOff.setOnClickListener(this);
-		//onOff.setChecked(false);
+		// onOff.setChecked(false);
 
 		btn1.setOnClickListener(this);
 		btn2.setOnClickListener(this);
@@ -70,13 +77,6 @@ public class Main extends Activity implements OnClickListener {
 
 		} else if (v == btn1) {
 
-			if (camera != null) {
-				camera.stopPreview();
-				camera.release();
-				camera = null;
-			}
-
-			//onOff.setChecked(false);
 			Intent strobeLight = new Intent(this, StrobeLight.class);
 			startActivity(strobeLight);
 
@@ -87,15 +87,9 @@ public class Main extends Activity implements OnClickListener {
 
 		} else if (v == btn3) {
 
-			if (camera != null) {
-				camera.stopPreview();
-				camera.release();
-				camera = null;
-			}
-
 			Intent morse = new Intent(this, MorseCode.class);
 			startActivity(morse);
-
+			
 		} else if (v == btn4) {
 
 			Intent warningOrange = new Intent(this, WarningOrange.class);
@@ -114,23 +108,34 @@ public class Main extends Activity implements OnClickListener {
 	}
 
 	private void setFlashOn() {
+		try{
 		if (camera == null)
-
 			camera = Camera.open();
 		parameters = camera.getParameters();
 		parameters.setFlashMode(Parameters.FLASH_MODE_TORCH);
 		camera.setParameters(parameters);
 		onOff.setImageResource(R.drawable.power_on);
+		}catch(Exception e){
+			//Toast.makeText(this, "Your camera is busy, perhaps another App or Widget uses it. Please ", 2000).show();
+			showDialog();
+		}
 	}
 
 	private void setFlashOff() {
-		parameters = camera.getParameters();
-		parameters.setFlashMode(Parameters.FLASH_MODE_OFF);
-		camera.setParameters(parameters);
-		camera.stopPreview();
-		camera.release();
-		camera = null;
-		onOff.setImageResource(R.drawable.power_off);
+		try{
+		if (camera != null) {
+			onOff.setImageResource(R.drawable.power_off);
+			parameters = camera.getParameters();
+			parameters.setFlashMode(Parameters.FLASH_MODE_OFF);
+			camera.setParameters(parameters);
+			camera.stopPreview();
+			camera.release();
+			camera = null;
+		}
+		}catch(Exception e){
+			showDialog();
+		}
+
 	}
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -157,6 +162,39 @@ public class Main extends Activity implements OnClickListener {
 		camera.stopPreview();
 		mHolder = null;
 
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		Log.v("onPause", "onPause");
+		setFlashOff();
+	}
+	
+	public void showDialog() {
+		AlertDialog alertDialog = new AlertDialog.Builder(Main.this).create();
+
+		// Setting Dialog Title
+		alertDialog.setTitle("Flashlight");
+		//alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//alertDialog.setContentView(R.layout.appwidgetlay);
+
+		// Setting Dialog Message
+		alertDialog.setMessage("Your camera is busy, perhaps another App or Widget uses it. Please turn off.");
+
+		// Setting Icon to Dialog
+		// alertDialog.setIcon(R.drawable.tick);
+
+		// Setting OK Button
+		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				// Write your code here to execute after dialog closed
+				
+			}
+		});
+
+		// Showing Alert Message
+		alertDialog.show();
 	}
 
 }

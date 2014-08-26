@@ -2,6 +2,8 @@ package gbernat.flashlight;
 
 import gbernat.flashlight.R;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
@@ -36,8 +38,12 @@ public class MorseCode extends Activity {
 		messageEditText = (EditText) findViewById(R.id.morseCodeEditText);
 		showMorseTextView = (TextView) findViewById(R.id.showMorseTextView);
 
+		try{
 		cam = Camera.open();
 		params = cam.getParameters();
+		}catch(Exception e){
+			showDialog();
+		}
 
 	}
 
@@ -130,12 +136,12 @@ public class MorseCode extends Activity {
 				}
 				isFlashOn = true;
 			} else {
-				cam = Camera.open();
-				params = cam.getParameters();
-				params.setFlashMode(Parameters.FLASH_MODE_TORCH);
-				cam.setParameters(params);
-				cam.startPreview();
-				isFlashOn = true;
+					cam = Camera.open();
+					params = cam.getParameters();
+					params.setFlashMode(Parameters.FLASH_MODE_TORCH);
+					cam.setParameters(params);
+					cam.startPreview();
+					isFlashOn = true;
 			}
 		} else {
 			return;
@@ -309,20 +315,62 @@ public class MorseCode extends Activity {
 		return morse;
 	}
 
+//	@Override
+//	public void onBackPressed() {
+//
+//		if (cam != null) {
+//			params.setFlashMode(Parameters.FLASH_MODE_OFF);
+//			cam.setParameters(params);
+//
+//			mHandler.removeCallbacks(mRunnable);
+//			cam.stopPreview();
+//			cam.release();
+//			cam = null;
+//		}
+//		finish();
+//
+//	}
+	
+	public void showDialog() {
+		AlertDialog alertDialog = new AlertDialog.Builder(MorseCode.this).create();
+
+		// Setting Dialog Title
+		alertDialog.setTitle("Flashlight");
+		//alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//alertDialog.setContentView(R.layout.appwidgetlay);
+
+		// Setting Dialog Message
+		alertDialog.setMessage("Your camera is busy, perhaps another App or Widget uses it. Please turn off.");
+
+		// Setting Icon to Dialog
+		// alertDialog.setIcon(R.drawable.tick);
+
+		// Setting OK Button
+		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				// Write your code here to execute after dialog closed
+				finish();
+			}
+		});
+
+		// Showing Alert Message
+		alertDialog.show();
+	}
 	@Override
-	public void onBackPressed() {
-
+	protected void onPause() {
+		super.onPause();
+		/**
+		 * Release Camera
+		 */
 		if (cam != null) {
-			params.setFlashMode(Parameters.FLASH_MODE_OFF);
-			cam.setParameters(params);
-
-			mHandler.removeCallbacks(mRunnable);
-			cam.stopPreview();
-			cam.release();
-			cam = null;
+		//stopLights(v);
+	    mHandler.removeCallbacks(mRunnable);
+		cam.stopPreview();
+		cam.release();
+		cam = null;
+		
 		}
 		finish();
-
 	}
 
 }

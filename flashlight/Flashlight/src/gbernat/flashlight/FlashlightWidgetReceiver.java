@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -71,14 +72,11 @@ public class FlashlightWidgetReceiver extends BroadcastReceiver {
     private void updateWidgetPictureAndButtonListener(Context context) {
 		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay);
 		remoteViews.setViewVisibility(R.id.layoutOnOff, View.GONE);
-		//remoteViews.setImageViewResource(R.id.widget_image, getImageToSet());
-		
-		//REMEMBER TO ALWAYS REFRESH YOUR BUTTON CLICK LISTENERS!!!
-		//remoteViews.setOnClickPendingIntent(R.id.widget_button, MyWidgetProvider.buildButtonPendingIntent(context));
 		
 		AppWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
 	}
     
+ 
 	
     
 }

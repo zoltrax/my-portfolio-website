@@ -17,7 +17,9 @@ import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.RemoteViews;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -42,9 +44,11 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
             
             //Intent receiver = new Intent(context,  FlashlightWidgetReceiver.class);
 	    	// receiver.setAction("gbernat.flashlight.intent.action.CHANGE_PICTURE");
+            
            
             receiver.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, receiver, 0);
+           
             
             Intent intent2 = new Intent(context, Main.class);
             PendingIntent pendingIntent2 = PendingIntent.getActivity(context, 0, intent2, 0);
@@ -54,6 +58,10 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay);
             views.setOnClickPendingIntent(R.id.imageButton2, pendingIntent);
             views.setOnClickPendingIntent(R.id.buttonGoToApp, pendingIntent2);
+            
+            
+            
+            
             
             for (int appWidgetId2 : appWidgetIds) {
             	Bundle options=appWidgetManager.getAppWidgetOptions(appWidgetId2);
@@ -186,7 +194,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 	        Calendar calendar = Calendar.getInstance();
 	        calendar.setTimeInMillis(System.currentTimeMillis());
 	        calendar.add(Calendar.SECOND, 2);
-	        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 1000
+	        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 120000
 	, createClockTickIntent(context));
 	}
 	 
@@ -197,6 +205,10 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 	        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 	        alarmManager.cancel(createClockTickIntent(context));
 	}
+	
+//	public void cameraOff(View v){
+//		Log.v("camery","off");
+//	}
 	  
 
 }
