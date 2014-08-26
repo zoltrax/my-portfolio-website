@@ -13,4 +13,6 @@
     <string name="label_frequency">frequency</string>
     <string name="label_flashlight_screen"> screen flashlight </string>
     <string name="label_sos">S.O.S.</string>
+    <string name="label_shake">Shake it</string>
+    
 </resources>

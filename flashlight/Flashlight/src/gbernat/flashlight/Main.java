@@ -1,14 +1,21 @@
 package gbernat.flashlight;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 import gbernat.flashlight.R;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.CameraProfile;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,9 +41,16 @@ public class Main extends Activity implements OnClickListener {
 	Button btn5;
 	Button btn6;
 	
+	Calendar now = Calendar.getInstance();
+	Calendar last = Calendar.getInstance(); 
 
 	private static Camera camera;
 	private static Parameters parameters;
+	
+	private SensorManager mSensorManager;
+	private float mAccel; // acceleration apart from gravity
+	private float mAccelCurrent; // current acceleration including gravity
+	private float mAccelLast; // last acceleration including gravity
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +75,15 @@ public class Main extends Activity implements OnClickListener {
 		btn4.setOnClickListener(this);
 		btn5.setOnClickListener(this);
 		btn6.setOnClickListener(this);
+		
+		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+	    mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+	    mAccel = 0.00f;
+	    mAccelCurrent = SensorManager.GRAVITY_EARTH;
+	    mAccelLast = SensorManager.GRAVITY_EARTH;
 
+	    
+	    //now.setTime(new Date());
 	}
 
 	@Override
@@ -166,6 +188,7 @@ public class Main extends Activity implements OnClickListener {
 
 	@Override
 	public void onPause() {
+		mSensorManager.unregisterListener(mSensorListener);
 		super.onPause();
 		Log.v("onPause", "onPause");
 		setFlashOff();
@@ -196,5 +219,56 @@ public class Main extends Activity implements OnClickListener {
 		// Showing Alert Message
 		alertDialog.show();
 	}
+	
+	  @Override
+	  protected void onResume() {
+	    super.onResume();
+	    mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+	  }
+	  
+	  private final SensorEventListener mSensorListener = new SensorEventListener() {
+
+
+		    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+		    	
+		    	
+			     // Calendar now = Calendar.getInstance(); 
+			      //
+			     
+			     Log.v("cos","cos");
+			     
+		    }
+
+			@Override
+			public void onSensorChanged(SensorEvent event) {
+				// TODO Auto-generated method stub
+				  float x = event.values[0];
+			      float y = event.values[1];
+			      float z = event.values[2];
+			      mAccelLast = mAccelCurrent;
+			      mAccelCurrent = (float) Math.sqrt((double) (x*x + y*y + z*z));
+			      float delta = mAccelCurrent - mAccelLast;
+			      mAccel = mAccel * 0.9f + delta; // perform low-cut filter
+			      
+			     
+			     
+			      if (mAccel > 12) {
+			    	  now.setTime(new Date()); 
+				      //Log.v("now time",""+now.getTimeInMillis());		 
+				      long diff = now.getTimeInMillis() - last.getTimeInMillis();
+			    	  //Log.v("diff","diff "+diff);
+			    	  	if(diff>750){
+			    	  		last.setTime(now.getTime()); 
+			    	  		if (camera == null) {
+			    	  			setFlashOn();
+			    	  		} else {
+			    	  			setFlashOff();
+			    	  		}
+			    	  	}
+			    	  //	Toast.makeText(getApplicationContext(), "shake it baybe shake it", 1000).show();
+				   }
+			  }
+			
+		  };
 
 }
