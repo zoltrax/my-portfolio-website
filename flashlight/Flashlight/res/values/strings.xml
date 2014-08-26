@@ -11,7 +11,7 @@
     <string name="label_morse">morse code</string>
     <string name="label_strobe_light">strobe light</string>
     <string name="label_frequency">frequency</string>
-    <string name="label_flashlight_screen">screen flashlight</string>
+    <string name="label_flashlight_screen">flashlight - screen</string>
     <string name="label_sos">S.O.S.</string>
     <string name="label_shake">Shake it</string>
     <string name="label_enter_mes">Enter message:</string>
@@ -19,6 +19,6 @@
     <string name="label_start_lights">start lights</string>
     <string name="label_stop_lights">stop lights</string>
     <string name="label_bat_st">Battery status:</string>
-    <string name="label_go_to_app"> go to app </string>
-    
+    <string name="label_go_to_app">&#160;go to app&#160;</string>  
+    <string name="label_busy_camera">Your camera is busy, perhaps another App or Widget uses it. Please turn off.</string>
 </resources>

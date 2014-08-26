@@ -198,12 +198,12 @@ public class Main extends Activity implements OnClickListener {
 		AlertDialog alertDialog = new AlertDialog.Builder(Main.this).create();
 
 		// Setting Dialog Title
-		alertDialog.setTitle("Flashlight");
+		alertDialog.setTitle(getApplication().getString(R.string.app_name));
 		//alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		//alertDialog.setContentView(R.layout.appwidgetlay);
 
 		// Setting Dialog Message
-		alertDialog.setMessage("Your camera is busy, perhaps another App or Widget uses it. Please turn off.");
+		alertDialog.setMessage(getApplication().getString(R.string.label_busy_camera));
 
 		// Setting Icon to Dialog
 		// alertDialog.setIcon(R.drawable.tick);

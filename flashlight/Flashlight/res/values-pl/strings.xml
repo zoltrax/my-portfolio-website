@@ -11,7 +11,7 @@
     <string name="label_morse">kod Morse\'a</string>
     <string name="label_strobe_light">światło stroboskopowe</string>
     <string name="label_frequency">częstotliwość</string>
-    <string name="label_flashlight_screen">latarka</string>
+    <string name="label_flashlight_screen">latarka - ekran</string>
     <string name="label_sos">S.O.S.</string>
     <string name="label_shake">Potrząśnij</string>
     <string name="label_enter_mes">Wpisz wiadomość:</string>
@@ -19,6 +19,6 @@
     <string name="label_start_lights">start</string>
     <string name="label_stop_lights">stop</string>
     <string name="label_bat_st">Status Baterii:</string>
-    <string name="label_go_to_app"> do aplikacji </string>
-    
+    <string name="label_go_to_app">&#160;do aplikacji&#160;</string>
+    <string name="label_busy_camera">Aparat jest zajęty, być może inna aplikacja lub widget go używa. Proszę wyłącz go.</string>
 </resources>

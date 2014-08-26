@@ -194,7 +194,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 	        Calendar calendar = Calendar.getInstance();
 	        calendar.setTimeInMillis(System.currentTimeMillis());
 	        calendar.add(Calendar.SECOND, 2);
-	        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 20000
+	        alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(), 5000
 	, createClockTickIntent(context));
 	}
 	 
