@@ -10,6 +10,7 @@ import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,8 +40,8 @@ public class MorseCode extends Activity {
 		showMorseTextView = (TextView) findViewById(R.id.showMorseTextView);
 
 		try{
-		cam = Camera.open();
-		params = cam.getParameters();
+			cam = Camera.open();
+			params = cam.getParameters();
 		}catch(Exception e){
 			showDialog();
 		}
@@ -355,6 +356,27 @@ public class MorseCode extends Activity {
 
 		// Showing Alert Message
 		alertDialog.show();
+		
+		
+//		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//	    // Get the layout inflater
+//	    LayoutInflater inflater = this.getLayoutInflater();
+//
+//	    // Inflate and set the layout for the dialog
+//	    // Pass null as the parent view because its going in the dialog layout
+//	    builder.setView(inflater.inflate(R.layout.appwidgetlay, null))
+//	    // Add action buttons
+//	           .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+//	               @Override
+//	               public void onClick(DialogInterface dialog, int id) {
+//	                   // sign in the user ...
+//	               }
+//	           });    
+//	    builder.create().show();
+
+		
+		
+		
 	}
 	@Override
 	protected void onPause() {
