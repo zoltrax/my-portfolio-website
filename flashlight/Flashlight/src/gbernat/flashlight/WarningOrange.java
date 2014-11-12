@@ -50,7 +50,7 @@ public class WarningOrange extends Activity {
 					mSwap = false;
 
 					mHander.postDelayed(mRunnable, (300));
-					Log.d("cyk", "pyk1");
+					
 				} else {
 					mLinearLayoutTop.setBackgroundColor(Color.BLACK);
 					mLinearLayoutBottom.setBackgroundColor(Color.rgb(232, 118,
@@ -58,12 +58,27 @@ public class WarningOrange extends Activity {
 					mSwap = true;
 
 					mHander.postDelayed(mRunnable, (300));
-					Log.v("dym", "dym");
-
-					Log.d("cyk", "pyk2");
+					
 				}
 			}
 		}
 	};
+	
+	 @Override
+		protected void onPause() {
+			super.onPause();
+			/**
+			 * Release Camera
+			 */
+
+			mHander.removeCallbacks(mRunnable);
+			if (cam != null) {
+				cam.stopPreview();
+				cam.release();
+				cam = null;
+			}
+
+			finish();
+		}
 
 }

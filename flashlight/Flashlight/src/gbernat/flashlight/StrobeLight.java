@@ -5,6 +5,7 @@ import java.io.IOException;
 import gbernat.flashlight.R;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.hardware.Camera;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.ToggleButton;
@@ -32,6 +34,7 @@ public class StrobeLight extends Activity implements OnClickListener {
 
 	private SeekBar frequencyBar;
 	int progressChanged = 100;
+	private TextView timeTextView;
 
 	ToggleButton onOff;
 
@@ -44,14 +47,12 @@ public class StrobeLight extends Activity implements OnClickListener {
 					mSwap = false;
 					flashLightOn();
 					mHandler.postDelayed(mRunnable, (progressChanged * 100));
-					Log.d("cyk", "pyk1");
 				} else {
 
 					mSwap = true;
 					flashLightOff();
 					mHandler.postDelayed(mRunnable, (progressChanged * 100));
-					Log.v("dym", "dym");
-					Log.d("cyk", "pyk2");
+
 				}
 			}
 		}
@@ -63,33 +64,34 @@ public class StrobeLight extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.strobe_light);
 
-		try{
-		cam = Camera.open();
-		params = cam.getParameters();
-		}catch(Exception e){
+		try {
+			cam = Camera.open();
+			params = cam.getParameters();
+		} catch (Exception e) {
 			showDialog();
 		}
 
 		onOff = (ToggleButton) findViewById(R.id.toggleButton_on_off);
 
 		onOff.setOnClickListener(this);
+		
+	    timeTextView = (TextView) findViewById(R.id.timeTextView);
+	    timeTextView.setText(getString(R.string.label_flash_time) +" " + 10 + "s");
 
 		frequencyBar = (SeekBar) findViewById(R.id.frequency_bar);
 		frequencyBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
-				progressChanged = progress;
+				progressChanged = 100-progress;
+				timeTextView.setText(getString(R.string.label_flash_time) +" "+ (progressChanged *100/1000F) + "s");
 			}
 
 			public void onStartTrackingTouch(SeekBar seekBar) {
 				// TODO Auto-generated method stub
 			}
 
-			public void onStopTrackingTouch(SeekBar seekBar) {
-				Toast.makeText(StrobeLight.this,
-						"seek bar progress:" + progressChanged,
-						Toast.LENGTH_SHORT).show();
+			public void onStopTrackingTouch(SeekBar seekBar) {						
 			}
 		});
 	}
@@ -100,18 +102,15 @@ public class StrobeLight extends Activity implements OnClickListener {
 	}
 
 	public void flashLightOn() {
-		Log.d("Time", "On");
 		if (!isFlashOn) {
 			if (cam != null || params != null) {
 
-				Log.v("ech", "ech");
 				params.setFlashMode(Parameters.FLASH_MODE_TORCH);
 				cam.setParameters(params);
 				cam.startPreview();
 				isFlashOn = true;
 			} else {
 
-				Log.v("ech1", "ech1");
 				cam = Camera.open();
 				params = cam.getParameters();
 				params.setFlashMode(Parameters.FLASH_MODE_TORCH);
@@ -128,7 +127,6 @@ public class StrobeLight extends Activity implements OnClickListener {
 	 * This method turn off the LED camera flash light
 	 */
 	public void flashLightOff() {
-		Log.d("Time", "Off");
 		if (isFlashOn) {
 			if (cam != null || params != null) {
 				params = cam.getParameters();
@@ -180,31 +178,20 @@ public class StrobeLight extends Activity implements OnClickListener {
 		/**
 		 * Release Camera
 		 */
-		
+
 		mHandler.removeCallbacks(mRunnable);
-		if(cam!=null){
-		cam.stopPreview();
-		cam.release();
-		cam = null;
+		if (cam != null) {
+			cam.stopPreview();
+			cam.release();
+			cam = null;
 		}
-	
+
 		finish();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		/**
-		 * Check if light was on when App was paused. If so, turn back on.
-		 */
-		// isFlashOn = false;
-		// if (params != null
-		// && params.getFlashMode() == Parameters.FLASH_MODE_TORCH) {
-		// if (cam == null)
-		// cam = Camera.open();
-		// cam.setParameters(params);
-		// onOff.setChecked(true);
-		// }
 	}
 
 	@Override
@@ -213,68 +200,47 @@ public class StrobeLight extends Activity implements OnClickListener {
 		if (cam != null) {
 			params.setFlashMode(Parameters.FLASH_MODE_OFF);
 			cam.setParameters(params);
-			// cam.startPreview();
-			// cam.release();
-			// isFlashOn = false;
-			// cam = null;
-			// params = null;
-
 			mHandler.removeCallbacks(mRunnable);
 			cam.stopPreview();
 			cam.release();
 			cam = null;
 		}
 		finish();
-
 	}
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v == onOff) {
-
 			if (onOff.isChecked()) {
-				// if(cam==null){
 				startStrobe();
-				// }
 			} else {
-
-				// cam = Camera.open();
-				// params = cam.getParameters();
 				params.setFlashMode(Parameters.FLASH_MODE_OFF);
 				cam.setParameters(params);
 				cam.startPreview();
-				// cam.release();
 				mHandler.removeCallbacks(mRunnable);
 			}
 
 		}
 
 	}
-	
-	public void showDialog() {
-		AlertDialog alertDialog = new AlertDialog.Builder(StrobeLight.this).create();
 
+	public void showDialog() {
+		AlertDialog alertDialog = new AlertDialog.Builder(StrobeLight.this)
+				.create();
 		// Setting Dialog Title
 		alertDialog.setTitle(getApplication().getString(R.string.app_name));
-		//alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		//alertDialog.setContentView(R.layout.appwidgetlay);
-
 		// Setting Dialog Message
-		alertDialog.setMessage(getApplication().getString(R.string.label_busy_camera));
-
-		// Setting Icon to Dialog
-		// alertDialog.setIcon(R.drawable.tick);
-
+		alertDialog.setMessage(getApplication().getString(
+				R.string.label_busy_camera));
 		// Setting OK Button
-		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
+		alertDialog.setButton(Dialog.BUTTON_NEUTRAL,"OK", new DialogInterface.OnClickListener() {
+			public void onClick(final DialogInterface dialog, final int which) {
 				// Write your code here to execute after dialog closed
 				finish();
 			}
 		});
 
-		// Showing Alert Message
 		alertDialog.show();
 	}
 

@@ -64,9 +64,9 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
             
             
             for (int appWidgetId2 : appWidgetIds) {
-            	Bundle options=appWidgetManager.getAppWidgetOptions(appWidgetId2);
-            	onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId2,
-            	options);
+//            	Bundle options=appWidgetManager.getAppWidgetOptions(appWidgetId2);
+//            	onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId2,
+//            	options);
             	}
           // views.
             // Tell the AppWidgetManager to perform an update on the current app widget
@@ -95,7 +95,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 			String currentTime = df.format(new Date());
 			//int currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
             //int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-			Intent batteryIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+			Intent batteryIntent = context.getApplicationContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
             int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
             
 			RemoteViews updateViews = new RemoteViews(context.getPackageName(),	R.layout.ofappwidgetlay);

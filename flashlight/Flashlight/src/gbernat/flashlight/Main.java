@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import gbernat.flashlight.R;
+import gbernat.flashlight.ShakeDetector.OnShakeListener;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -47,10 +48,14 @@ public class Main extends Activity implements OnClickListener {
 	private static Camera camera;
 	private static Parameters parameters;
 	
+//	private SensorManager mSensorManager;
+//	private float mAccel; // acceleration apart from gravity
+//	private float mAccelCurrent; // current acceleration including gravity
+//	private float mAccelLast; // last acceleration including gravity
+	
 	private SensorManager mSensorManager;
-	private float mAccel; // acceleration apart from gravity
-	private float mAccelCurrent; // current acceleration including gravity
-	private float mAccelLast; // last acceleration including gravity
+    private Sensor mAccelerometer;
+    private ShakeDetector mShakeDetector;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,14 +81,48 @@ public class Main extends Activity implements OnClickListener {
 		btn5.setOnClickListener(this);
 		btn6.setOnClickListener(this);
 		
+//		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+//	    mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+//	    mAccel = 0.00f;
+//	    mAccelCurrent = SensorManager.GRAVITY_EARTH;
+//	    mAccelLast = SensorManager.GRAVITY_EARTH;
+		
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-	    mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-	    mAccel = 0.00f;
-	    mAccelCurrent = SensorManager.GRAVITY_EARTH;
-	    mAccelLast = SensorManager.GRAVITY_EARTH;
-
+        mAccelerometer = mSensorManager
+                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mShakeDetector = new ShakeDetector();
+        mShakeDetector.setOnShakeListener(new OnShakeListener() {
+ 
+            @Override
+            public void onShake(int count) {
+                /*
+                 * The following method, "handleShakeEvent(count):" is a stub //
+                 * method you would use to setup whatever you want done once the
+                 * device has been shook.
+                 */
+                handleShakeEvent(count);
+            }
+        });
 	    
 	    //now.setTime(new Date());
+	}
+
+	protected void handleShakeEvent(int count) {
+		// TODO Auto-generated method stub
+		//if(count == 1){
+			
+		//Log.v("cycki",""+count);
+		
+		
+		if (camera!=null) {
+			setFlashOff();
+			//Log.v("cycki","off");
+			return;
+		} else {
+			setFlashOn();
+			//Log.v("cycki","on");
+		}
+		//}
 	}
 
 	@Override
@@ -188,9 +227,10 @@ public class Main extends Activity implements OnClickListener {
 
 	@Override
 	public void onPause() {
-		mSensorManager.unregisterListener(mSensorListener);
+		//mSensorManager.unregisterListener(mSensorListener);
 		super.onPause();
-		Log.v("onPause", "onPause");
+		mSensorManager.unregisterListener(mShakeDetector);
+		//Log.v("onPause", "onPause");
 		setFlashOff();
 	}
 	
@@ -223,52 +263,53 @@ public class Main extends Activity implements OnClickListener {
 	  @Override
 	  protected void onResume() {
 	    super.onResume();
-	    mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+	    mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
+	    //mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
 	  }
 	  
-	  private final SensorEventListener mSensorListener = new SensorEventListener() {
-
-
-		    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		    	
-		    	
-			     // Calendar now = Calendar.getInstance(); 
-			      //
-			     
-			     Log.v("cos","cos");
-			     
-		    }
-
-			@Override
-			public void onSensorChanged(SensorEvent event) {
-				// TODO Auto-generated method stub
-				  float x = event.values[0];
-			      float y = event.values[1];
-			      float z = event.values[2];
-			      mAccelLast = mAccelCurrent;
-			      mAccelCurrent = (float) Math.sqrt((double) (x*x + y*y + z*z));
-			      float delta = mAccelCurrent - mAccelLast;
-			      mAccel = mAccel * 0.9f + delta; // perform low-cut filter
-			      
-			     
-			     
-			      if (mAccel > 12) {
-			    	  now.setTime(new Date()); 
-				      //Log.v("now time",""+now.getTimeInMillis());		 
-				      long diff = now.getTimeInMillis() - last.getTimeInMillis();
-			    	  //Log.v("diff","diff "+diff);
-			    	  	if(diff>750){
-			    	  		last.setTime(now.getTime()); 
-			    	  		if (camera == null) {
-			    	  			setFlashOn();
-			    	  		} else {
-			    	  			setFlashOff();
-			    	  		}
-			    	  	}
-			    	  //	Toast.makeText(getApplicationContext(), "shake it baybe shake it", 1000).show();
-				   }
-			  }
-			
-		  };
+//	  private final SensorEventListener mSensorListener = new SensorEventListener() {
+//
+//
+//		    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+//		    	
+//		    	
+//			     // Calendar now = Calendar.getInstance(); 
+//			      //
+//			     
+//			     Log.v("cos","cos");
+//			     
+//		    }
+//
+//			@Override
+//			public void onSensorChanged(SensorEvent event) {
+//				// TODO Auto-generated method stub
+//				  float x = event.values[0];
+//			      float y = event.values[1];
+//			      float z = event.values[2];
+//			      mAccelLast = mAccelCurrent;
+//			      mAccelCurrent = (float) android.util.FloatMath.sqrt((float) (x*x + y*y + z*z));
+//			      float delta = mAccelCurrent - mAccelLast;
+//			      mAccel = mAccel * 0.9f + delta; // perform low-cut filter
+//			      
+//			     
+//			     
+//			      if (mAccel > 6) {
+//			    	  now.setTime(new Date()); 
+//				      //Log.v("now time",""+now.getTimeInMillis());		 
+//				      long diff = now.getTimeInMillis() - last.getTimeInMillis();
+//			    	  //Log.v("diff","diff "+diff);
+//			    	  	if(diff>750){
+//			    	  		last.setTime(now.getTime()); 
+//			    	  		if (camera == null) {
+//			    	  			setFlashOn();
+//			    	  		} else {
+//			    	  			setFlashOff();
+//			    	  		}
+//			    	  	}
+//			    	  //	Toast.makeText(getApplicationContext(), "shake it baybe shake it", 1000).show();
+//				   }
+//			  }
+//			
+//		  };
 
 }

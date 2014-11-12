@@ -21,4 +21,5 @@
     <string name="label_bat_st">Battery status:</string>
     <string name="label_go_to_app">&#160;go to app&#160;</string>  
     <string name="label_busy_camera">Your camera is busy, perhaps another App or Widget uses it. Please turn off.</string>
+    <string name="label_flash_time">flash time: </string>
 </resources>

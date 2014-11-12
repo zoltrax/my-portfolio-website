@@ -50,7 +50,7 @@ public class StrobeScreen extends Activity {
 					}
 					mSwap = false;
 					mHander.postDelayed(mRunnable, (progressChanged * 100));
-					Log.d("cyk", "pyk1");
+					
 				} else {
 					mLinearLayout.setBackgroundColor(colors[i]);
 					if(i>=(colors.length-1)){
@@ -61,16 +61,16 @@ public class StrobeScreen extends Activity {
 					mSwap = true;
 
 					mHander.postDelayed(mRunnable, (progressChanged * 100));
-					Log.v("dym", "dym");
+					
 					flashLightOff();
-					Log.d("cyk", "pyk2");
+					
 				}
 			}
 		}
 	};
     
     public void flashLightOn() {
-	    Log.d("Time", "On");
+	   
 	    if (!isFlashOn ) {
 	        if (cam != null || params != null) {
 	            params.setFlashMode(Parameters.FLASH_MODE_TORCH);
@@ -95,7 +95,7 @@ public class StrobeScreen extends Activity {
 	 * This method turn off the LED camera flash light
 	 */
 	public void flashLightOff() {
-	    Log.d("Time", "Off");
+	   
 	    if (isFlashOn) {
 	        if (cam != null || params != null) {
 	            params.setFlashMode(Parameters.FLASH_MODE_OFF);
@@ -137,8 +137,6 @@ public class StrobeScreen extends Activity {
             }
  
             public void onStopTrackingTouch(SeekBar seekBar) {
-                Toast.makeText(StrobeScreen.this,"seek bar progress:"+progressChanged,
-                        Toast.LENGTH_SHORT).show();
             }
         });
  
@@ -149,113 +147,21 @@ public class StrobeScreen extends Activity {
         mHander.post(mRunnable);
     }
     
-    public void morseCode(View v){
-		Log.v("cyk","pyk");
-		Intent intent = new Intent(this, MorseCode.class);
-		startActivity(intent);
-		
+    @Override
+	protected void onPause() {
+		super.onPause();
+		/**
+		 * Release Camera
+		 */
+
+		mHander.removeCallbacks(mRunnable);
+		if (cam != null) {
+			cam.stopPreview();
+			cam.release();
+			cam = null;
+		}
+
+		finish();
 	}
-	   
-    // screen strobe
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // flashlight strobe
-    
-   
-//    public void flashLightOn() {
-//        Log.d("Time", "On");
-//        if (!isFlashOn) {
-//         
-//			if (cam != null || params != null) {
-//                params.setFlashMode(Parameters.FLASH_MODE_TORCH);
-//                cam.setParameters(params);
-//                cam.startPreview();
-//                isFlashOn = true;
-//            } else {
-//                cam = Camera.open();
-//                params = cam.getParameters();
-//                params.setFlashMode(Parameters.FLASH_MODE_TORCH);
-//                cam.setParameters(params);
-//                cam.startPreview();
-//                isFlashOn = true;
-//            }
-//        }
-//        else{
-//            return;
-//        }
-//    }
-//
-//    /*
-//     * This method turn off the LED camera flash light
-//     */
-//    public void flashLightOff() {
-//        Log.d("Time", "Off");
-//        if (isFlashOn) {
-//            if (cam != null || params != null) {
-//                //params.setFlashMode(Parameters.FLASH_MODE_OFF);
-//                //cam.setParameters(params);
-//                cam.stopPreview();
-//                isFlashOn = false;
-//            }
-//            else{
-//                //params = cam.getParameters();
-//                //params.setFlashMode(Parameters.FLASH_MODE_OFF);
-//                //cam.setParameters(params);
-//                cam.stopPreview();
-//                isFlashOn = false;  
-//            }
-//
-//
-//        }
-//        else{
-//            return;
-//        }
-//    }
-//
-//
-//
-//    @Override
-//    public void surfaceChanged(SurfaceHolder holder, int format, int width,
-//            int height) {
-//        // TODO Auto-generated method stub
-//
-//    }
-//
-//    @Override
-//    public void surfaceCreated(SurfaceHolder holder) {
-//        // TODO Auto-generated method stub
-//        mHolder = holder;
-//        try {
-//            cam.setPreviewDisplay(mHolder);
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//
-//    }
-//
-//    @Override
-//    public void surfaceDestroyed(SurfaceHolder holder) {
-//        // TODO Auto-generated method stub
-//        cam.stopPreview();
-//        mHolder = null;
-//
-//    }
-//
-//    private final Runnable mRunnable = new Runnable() {
-//
-//        public void run() {
-//            if (mActive) {
-//                if (mSwap) {
-//                    flashLightOn();
-//                    mSwap = false;
-//                    mHander.postDelayed(mRunnable, strobeOnDelay);
-//                } else {
-//                    flashLightOff();
-//                    mSwap = true;
-//                    mHander.postDelayed(mRunnable, strobeOffDelay);
-//                }
-//            }
-//        }
-//    };
-//                
+                  
 }
