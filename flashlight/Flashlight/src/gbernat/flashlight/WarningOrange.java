@@ -39,46 +39,65 @@ public class WarningOrange extends Activity {
 		mHander.post(mRunnable);
 	}
 
+	int count = 0;
+
 	private final Runnable mRunnable = new Runnable() {
 
 		public void run() {
 
 			if (mActive) {
-				if (mSwap) {
-					mLinearLayoutTop.setBackgroundColor(Color.rgb(232, 118, 0));
+				if (count < 4) {
 					mLinearLayoutBottom.setBackgroundColor(Color.BLACK);
-					mSwap = false;
+					if (mSwap) {
+						count++;
+						mLinearLayoutTop.setBackgroundColor(Color.rgb(232, 118,0));
+						mSwap = false;
+						mHander.postDelayed(mRunnable, (145));
 
-					mHander.postDelayed(mRunnable, (300));
-					
+					} else {
+						mLinearLayoutTop.setBackgroundColor(Color.WHITE);
+						mSwap = true;
+						mHander.postDelayed(mRunnable, (50));
+
+					}
 				} else {
 					mLinearLayoutTop.setBackgroundColor(Color.BLACK);
-					mLinearLayoutBottom.setBackgroundColor(Color.rgb(232, 118,
-							0));
-					mSwap = true;
 
-					mHander.postDelayed(mRunnable, (300));
+					if (count > 6)count = 0;
 					
+					if (mSwap) {
+						count++;
+						mLinearLayoutBottom.setBackgroundColor(Color.WHITE);
+						mSwap = false;
+						mHander.postDelayed(mRunnable, (50));
+
+					} else {
+						mLinearLayoutBottom.setBackgroundColor(Color.rgb(232,118, 0));
+						mSwap = true;
+						mHander.postDelayed(mRunnable, (145));
+
+					}
 				}
+
 			}
 		}
 	};
-	
-	 @Override
-		protected void onPause() {
-			super.onPause();
-			/**
-			 * Release Camera
-			 */
 
-			mHander.removeCallbacks(mRunnable);
-			if (cam != null) {
-				cam.stopPreview();
-				cam.release();
-				cam = null;
-			}
+	@Override
+	protected void onPause() {
+		super.onPause();
+		/**
+		 * Release Camera
+		 */
 
-			finish();
+		mHander.removeCallbacks(mRunnable);
+		if (cam != null) {
+			cam.stopPreview();
+			cam.release();
+			cam = null;
 		}
+
+		finish();
+	}
 
 }
