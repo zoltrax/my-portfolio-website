@@ -39,25 +39,49 @@ public class PoliceWarning extends Activity {
 		mHander.post(mRunnable);
 	}
 
+	int count =0;
+	
 	private final Runnable mRunnable = new Runnable() {
-
+			
 		public void run() {
-
 			if (mActive) {
-				if (mSwap) {
-					mLinearLayoutTop.setBackgroundColor(Color.BLUE);
+				
+				if(count<4){
 					mLinearLayoutBottom.setBackgroundColor(Color.BLACK);
-					mSwap = false;
-					mHander.postDelayed(mRunnable, (300));
-					
-				} else {
-					mLinearLayoutTop.setBackgroundColor(Color.BLACK);
-					mLinearLayoutBottom.setBackgroundColor(Color.RED);
-					mSwap = true;
+					if (mSwap) {
+						count++;
+						mLinearLayoutTop.setBackgroundColor(Color.BLUE);
+						mSwap = false;
+						mHander.postDelayed(mRunnable, (145));						
 
-					mHander.postDelayed(mRunnable, (300));
+					} else {
+						mLinearLayoutTop.setBackgroundColor(Color.WHITE);
+						mSwap = true;
+						mHander.postDelayed(mRunnable, (50));
+
+					}
+				
+				}else{
+					mLinearLayoutTop.setBackgroundColor(Color.BLACK);
 					
-				}
+					if(count>6) count=0;
+					
+					if (mSwap) {
+						count++;
+						mLinearLayoutBottom.setBackgroundColor(Color.WHITE);
+						mSwap = false;
+						mHander.postDelayed(mRunnable, (50));
+						
+
+					} else {
+						mLinearLayoutBottom.setBackgroundColor(Color.RED);
+						mSwap = true;
+
+						mHander.postDelayed(mRunnable, (145));
+
+					}
+				}	
+					
 			}
 		}
 	};
