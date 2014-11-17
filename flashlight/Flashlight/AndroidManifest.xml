@@ -74,6 +74,20 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget" />
         </receiver>
+        
+        <receiver android:name="AppWidgetProvider2" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="gbernat.flashlight.8BITCLOCK_WIDGET_UPDATE" >
+                </action>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget2" />
+        </receiver>
+        
+        
         <receiver android:name="FlashlightWidgetReceiver" >
             <intent-filter>
                 <action android:name="COM_FLASHLIGHT" >

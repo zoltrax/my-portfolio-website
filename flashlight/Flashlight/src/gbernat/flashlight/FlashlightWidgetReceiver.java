@@ -25,6 +25,7 @@ public class FlashlightWidgetReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay);
+            RemoteViews views2 = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay2);
             
             if(intent.getAction().equals("gbernat.flashlight.intent.action.CHANGE_PICTURE")){
     			updateWidgetPictureAndButtonListener(context);
@@ -32,13 +33,19 @@ public class FlashlightWidgetReceiver extends BroadcastReceiver {
 
             if(isLightOn) {
                     views.setImageViewResource(R.id.imageButton2, R.drawable.power_off);
+                    views2.setImageViewResource(R.id.imageButton22, R.drawable.power_off);
             } else {
                     views.setImageViewResource(R.id.imageButton2, R.drawable.power_on);
+                    views2.setImageViewResource(R.id.imageButton22, R.drawable.power_on);
             }
 
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             appWidgetManager.updateAppWidget(new ComponentName(context,     AppWidgetProvider.class),
                                                                              views);
+            
+            appWidgetManager.updateAppWidget(new ComponentName(context,     AppWidgetProvider2.class),
+                    views2);
+            
 
             if (isLightOn) {
                     if (camera != null) {
@@ -71,9 +78,11 @@ public class FlashlightWidgetReceiver extends BroadcastReceiver {
     
     private void updateWidgetPictureAndButtonListener(Context context) {
 		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay);
+		RemoteViews remoteViews2 = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay2);
 		remoteViews.setViewVisibility(R.id.layoutOnOff, View.GONE);
 		
 		AppWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
+		AppWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews2);
 	}
     
  

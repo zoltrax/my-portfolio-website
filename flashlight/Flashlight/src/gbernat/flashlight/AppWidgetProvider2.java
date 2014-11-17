@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import gbernat.flashlight.AppWidgetProvider;
+import gbernat.flashlight.AppWidgetProvider2;
 import android.annotation.TargetApi;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -23,7 +23,7 @@ import android.view.View.OnClickListener;
 import android.widget.RemoteViews;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
+public class AppWidgetProvider2 extends android.appwidget.AppWidgetProvider {
 	
 	public static String CLOCK_WIDGET_UPDATE = "gbernat.flashlight.8BITCLOCK_WIDGET_UPDATE";
 	private static final DateFormat df = new SimpleDateFormat("hh:mm:ss");
@@ -55,9 +55,9 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 
             // Get the layout for the App Widget and attach an on-click listener
             // to the button//
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay);
-            views.setOnClickPendingIntent(R.id.imageButton2, pendingIntent);
-            views.setOnClickPendingIntent(R.id.buttonGoToApp, pendingIntent2);
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay2);
+            views.setOnClickPendingIntent(R.id.imageButton22, pendingIntent);
+            //views.setOnClickPendingIntent(R.id.buttonGoToApp, pendingIntent2);
             
             
             int currentapiVersion = android.os.Build.VERSION.SDK_INT;
@@ -85,33 +85,10 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
-		if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
-		//Log.d(LOG_TAG, "Clock update");
-		// Get the widget manager and ids for this widget provider, then call the shared
-		// clock update method.
-		ComponentName thisAppWidget = new ComponentName(context.getPackageName(), getClass().getName());
-		AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-		int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
-		for (int appWidgetID: ids) {
-		updateAppWidget(context, appWidgetManager, appWidgetID, intent);
-		}
-		}
+
 		}
 		
-		public static void updateAppWidget(Context context,	AppWidgetManager appWidgetManager, int appWidgetId, Intent intent) {
-			String currentTime = df.format(new Date());
-			//int currentLevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-            //int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-			Intent batteryIntent = context.getApplicationContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-			
-            int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, 0);
-            
-			RemoteViews updateViews = new RemoteViews(context.getPackageName(),	R.layout.ofappwidgetlay);
-			updateViews.setTextViewText(R.id.textViewBatterySt, ""+level+" %");
-			Log.v("bat",""+level);
-			//updateViews.setTextViewText(R.id.textViewActualTime, "actual time: "+currentTime);
-			appWidgetManager.updateAppWidget(appWidgetId, updateViews);
-			}
+
 		
 		
 		
@@ -127,7 +104,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 
            // Get the layout for the App Widget and attach an on-click listener
            // to the button//
-           RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay);
+           RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay2);
            
 
 	      int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
@@ -136,7 +113,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 
 	      int columns = getCellsForSize(minWidth);
 	      //if(columns>1){
-          views.setViewVisibility(R.id.layoutOnOff, View.VISIBLE);
+          //views.setViewVisibility(R.id.layoutOnOff, View.VISIBLE);
 	     // }else{
 	     //	  views.setViewVisibility(R.id.layoutOnOff, View.GONE);
 	     //  }
@@ -162,13 +139,13 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 		    
 		    	
 		    	return new RemoteViews(context.getPackageName(),
-		                R.layout.ofappwidgetlay);
+		                R.layout.ofappwidgetlay2);
 		    	
 		    	
 		    } else {
 		                    // Get appropriate remote view.
 		        return new RemoteViews(context.getPackageName(),
-		                R.layout.ofappwidgetlay);
+		                R.layout.ofappwidgetlay2);
 		    }
 		}
 	  
@@ -183,7 +160,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 	public static void pushWidgetUpdate(Context context,
 			RemoteViews remoteViews) {
 		// TODO Auto-generated method stub
-		ComponentName myWidget = new ComponentName(context, AppWidgetProvider.class);
+		ComponentName myWidget = new ComponentName(context, AppWidgetProvider2.class);
 	    AppWidgetManager manager = AppWidgetManager.getInstance(context);
 	    manager.updateAppWidget(myWidget, remoteViews);
 	}

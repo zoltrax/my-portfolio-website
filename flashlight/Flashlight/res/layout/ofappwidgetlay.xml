@@ -7,7 +7,7 @@
   android:gravity="center"
   android:layout_margin="4dp"
   android:minHeight="60dp"
-  android:minWidth="58dp"
+  android:minWidth="70dp"
  
   
   android:background="@drawable/appwidget_bg_focused">
@@ -28,74 +28,83 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginLeft="1dp"
-             >
-
-            <TextView
-                android:id="@+id/textView1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name" 
-                android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:textColor="@color/Red"
-                android:textSize="7dp"/>
-
-            <ImageButton
-                android:id="@+id/imageButton2"
-               	
-                android:background="@drawable/power_off"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:scaleType="fitCenter"
-                 />
-<!--
+            android:orientation="horizontal" >
+            <!--
               <Button
                 android:id="@+id/buttonik"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Click Me!" /> -->
-        </LinearLayout>
+                android:text="Click Me!" />
+            -->
 
-        <LinearLayout
-            android:id="@+id/layoutOnOff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="7dp" >
-
-            <TextView
-                android:id="@+id/textView2"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_bat_st"
-                android:textColor="@color/Red" />
+                android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/textViewBatterySt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingTop="3dp"
-                android:textColor="@color/Red"
-                android:text="%" />
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/app_name"
+                    android:textColor="@color/Red" />
 
-            <Button
-                android:id="@+id/buttonGoToApp"
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:background="@drawable/power_off"
+                    android:scaleType="fitCenter" />
+
+                
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutOnOff"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:background="@drawable/appwidget_bg_clickable"
-                android:text="@string/label_go_to_app"
-                android:textColor="@color/Orange" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:paddingLeft="7dp" >
 
-            <TextView
-                android:id="@+id/textViewActualTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ddd"
-                android:visibility="gone"
-                 />
+                <Button
+                    android:id="@+id/buttonGoToApp"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="56dp"
+                    android:background="@drawable/appwidget_bg_clickable"
+                    android:text="@string/label_go_to_app"
+                    android:textColor="@color/Orange"
+                    android:textSize="10dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="bottom" >
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_bat_st"
+                        android:textColor="@color/Red"
+                        android:textSize="10dp" />
+
+                    <TextView
+                        android:id="@+id/textViewBatterySt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="3dp"
+                        android:text="%"
+                        android:textColor="@color/Red"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
