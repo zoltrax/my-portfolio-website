@@ -78,20 +78,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="3dp"
+                android:textColor="@color/Red"
                 android:text="%" />
 
             <Button
                 android:id="@+id/buttonGoToApp"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:text="@string/label_go_to_app"
-                android:layout_gravity="bottom"
                 android:background="@drawable/appwidget_bg_clickable"
-                android:textColor="@color/Orange"
-                
-               
-               
-                 />
+                android:text="@string/label_go_to_app"
+                android:textColor="@color/Orange" />
 
             <TextView
                 android:id="@+id/textViewActualTime"

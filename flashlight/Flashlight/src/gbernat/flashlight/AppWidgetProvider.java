@@ -60,14 +60,21 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
             views.setOnClickPendingIntent(R.id.buttonGoToApp, pendingIntent2);
             
             
+            int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+            if (currentapiVersion >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1){
+            	
+            	for (int appWidgetId2 : appWidgetIds) {
+                	Bundle options=appWidgetManager.getAppWidgetOptions(appWidgetId2);
+                	onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId2,
+                	options);
+                	}
+                // Do something for froyo and above versions
+            } 
             
             
             
-            for (int appWidgetId2 : appWidgetIds) {
-//            	Bundle options=appWidgetManager.getAppWidgetOptions(appWidgetId2);
-//            	onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId2,
-//            	options);
-            	}
+            
+            
           // views.
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -126,11 +133,11 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 	              .getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
 
 	      int columns = getCellsForSize(minWidth);
-	      if(columns>1){
+	      //if(columns>1){
           views.setViewVisibility(R.id.layoutOnOff, View.VISIBLE);
-	      }else{
-	    	  views.setViewVisibility(R.id.layoutOnOff, View.GONE);
-	      }
+	     // }else{
+	     //	  views.setViewVisibility(R.id.layoutOnOff, View.GONE);
+	     //  }
 	      
 	         
 	      appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -145,7 +152,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 		        int minHeight) {
 		
 		    int rows = getCellsForSize(minHeight);
-		    int columns = getCellsForSize(minWidth);
+		    int columns = 2;//getCellsForSize(minWidth);
 
 		    if (columns > 1) {
 		        // Get 4 column widget remote view and return
@@ -204,11 +211,6 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 	      //  Log.d(LOG_TAG, "Widget Provider disabled. Turning off timer");
 	        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 	        alarmManager.cancel(createClockTickIntent(context));
-	}
-	
-//	public void cameraOff(View v){
-//		Log.v("camery","off");
-//	}
-	  
+	}  
 
 }
