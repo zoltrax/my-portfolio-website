@@ -190,6 +190,12 @@ public class AppWidgetProvider2 extends android.appwidget.AppWidgetProvider {
 	      //  Log.d(LOG_TAG, "Widget Provider disabled. Turning off timer");
 	        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 	        alarmManager.cancel(createClockTickIntent(context));
-	}  
+	}
+
+	public static PendingIntent buildButtonPendingIntent(Context context) {
+		Intent intent = new Intent();
+	    intent.setAction("gbernat.flashlight.intent.action.CHANGE_PICTURE");
+	    return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+	}
 
 }
