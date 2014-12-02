@@ -108,7 +108,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
             
 			RemoteViews updateViews = new RemoteViews(context.getPackageName(),	R.layout.ofappwidgetlay);
 			updateViews.setTextViewText(R.id.textViewBatterySt, ""+level+" %");
-			Log.v("bat",""+level);
+			//Log.v("bat",""+level);
 			//updateViews.setTextViewText(R.id.textViewActualTime, "actual time: "+currentTime);
 			appWidgetManager.updateAppWidget(appWidgetId, updateViews);
 			}
@@ -156,13 +156,13 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 
 	      int columns = getCellsForSize(minWidth);
 	      //if(columns>1){
-         // views.setViewVisibility(R.id.layoutOnOff, View.VISIBLE);
+          views.setViewVisibility(R.id.layoutOnOff, View.VISIBLE);
 	     // }else{
 	     //	  views.setViewVisibility(R.id.layoutOnOff, View.GONE);
 	     //  }
 	      
 	         
-	      appWidgetManager.updateAppWidget(appWidgetId, views);
+	      //appWidgetManager.updateAppWidget(appWidgetId, views);
 	      //appWidgetManager.updateAppWidget(appWidgetId,
 	        //      getRemoteViews(context, minWidth, minHeight));
 
@@ -176,7 +176,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 		    int rows = getCellsForSize(minHeight);
 		    int columns = 2;//getCellsForSize(minWidth);
 
-		    if (columns > 1) {
+		   
 		        // Get 4 column widget remote view and return
 		    	
 		    
@@ -185,11 +185,8 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 		                R.layout.ofappwidgetlay);
 		    	
 		    	
-		    } else {
-		                    // Get appropriate remote view.
-		        return new RemoteViews(context.getPackageName(),
-		                R.layout.ofappwidgetlay);
-		    }
+		   
+		    
 		}
 	  
 	  private static int getCellsForSize(int size) {
