@@ -27,6 +27,8 @@ public class FlashlightWidgetReceiver extends BroadcastReceiver {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay);
             RemoteViews views2 = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay2);
     		views2.setOnClickPendingIntent(R.id.imageButton22, AppWidgetProvider2.buildButtonPendingIntent(context));
+    		views.setOnClickPendingIntent(R.id.imageButton2, AppWidgetProvider.buildButtonPendingIntent(context));
+    		views.setOnClickPendingIntent(R.id.buttonGoToApp, AppWidgetProvider.buildButtonPendingIntent2(context));
             if(intent.getAction().equals("gbernat.flashlight.intent.action.CHANGE_PICTURE")){
     			updateWidgetPictureAndButtonListener(context);
     		}
@@ -77,12 +79,15 @@ public class FlashlightWidgetReceiver extends BroadcastReceiver {
     }
     
     private void updateWidgetPictureAndButtonListener(Context context) {
-		//RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay);
+		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay);
 		RemoteViews remoteViews2 = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay2);
 		//remoteViews.setViewVisibility(R.id.layoutOnOff, View.GONE);
 		//remoteViews2.setO
 		remoteViews2.setOnClickPendingIntent(R.id.imageButton22, AppWidgetProvider2.buildButtonPendingIntent(context));
-		//AppWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
+		remoteViews.setOnClickPendingIntent(R.id.imageButton2, AppWidgetProvider.buildButtonPendingIntent(context));
+		remoteViews.setOnClickPendingIntent(R.id.buttonGoToApp, AppWidgetProvider.buildButtonPendingIntent(context));
+
+		AppWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews);
 		AppWidgetProvider.pushWidgetUpdate(context.getApplicationContext(), remoteViews2);
 	}
     

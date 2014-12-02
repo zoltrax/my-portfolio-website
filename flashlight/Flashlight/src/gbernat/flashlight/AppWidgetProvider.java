@@ -129,6 +129,26 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
            // to the button//
            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.ofappwidgetlay);
            
+           Intent receiver = new Intent(context,  FlashlightWidgetReceiver.class);
+           // PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            
+            receiver.setAction("COM_FLASHLIGHT");
+            
+            //Intent receiver = new Intent(context,  FlashlightWidgetReceiver.class);
+	    	// receiver.setAction("gbernat.flashlight.intent.action.CHANGE_PICTURE");
+            
+           
+            receiver.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
+           
+           PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, receiver, 0);
+           
+           
+           Intent intent2 = new Intent(context, Main.class);
+           PendingIntent pendingIntent2 = PendingIntent.getActivity(context, 0, intent2, 0);
+           
+           views.setOnClickPendingIntent(R.id.imageButton2, pendingIntent);
+           views.setOnClickPendingIntent(R.id.buttonGoToApp, pendingIntent2);
+           
 
 	      int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
 	      int minHeight = options
@@ -136,15 +156,15 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 
 	      int columns = getCellsForSize(minWidth);
 	      //if(columns>1){
-          views.setViewVisibility(R.id.layoutOnOff, View.VISIBLE);
+         // views.setViewVisibility(R.id.layoutOnOff, View.VISIBLE);
 	     // }else{
 	     //	  views.setViewVisibility(R.id.layoutOnOff, View.GONE);
 	     //  }
 	      
 	         
 	      appWidgetManager.updateAppWidget(appWidgetId, views);
-	      appWidgetManager.updateAppWidget(appWidgetId,
-	              getRemoteViews(context, minWidth, minHeight));
+	      //appWidgetManager.updateAppWidget(appWidgetId,
+	        //      getRemoteViews(context, minWidth, minHeight));
 
 	      super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId,
 	              newOptions);
@@ -215,4 +235,15 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 	        alarmManager.cancel(createClockTickIntent(context));
 	}  
 
+	public static PendingIntent buildButtonPendingIntent(Context context) {
+		Intent intent = new Intent();
+	    intent.setAction("gbernat.flashlight.intent.action.CHANGE_PICTURE");
+	    return PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+	}
+
+	public static PendingIntent buildButtonPendingIntent2(Context context) {
+		Intent intent = new Intent(context,Main.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context,0, intent, 0);
+	    return pendingIntent;//PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+	}
 }

@@ -120,8 +120,8 @@ public class AppWidgetProvider2 extends android.appwidget.AppWidgetProvider {
 	      
 	         
 	      appWidgetManager.updateAppWidget(appWidgetId, views);
-	      appWidgetManager.updateAppWidget(appWidgetId,
-	              getRemoteViews(context, minWidth, minHeight));
+	      //appWidgetManager.updateAppWidget(appWidgetId,
+	             // getRemoteViews(context, minWidth, minHeight));
 
 	      super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId,
 	              newOptions);
