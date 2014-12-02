@@ -17,15 +17,34 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp" >
+            
+          <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+           
+            android:padding="10dp" >   
+                     
+            <ImageButton
+                android:id="@+id/settingButton1"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:gravity="left"
+                android:text="ToggleButton"
+                android:scaleType="fitCenter"
+                android:background="@drawable/setting_icon"
+                android:layout_alignParentLeft="true" />
 
             <ImageButton
                 android:id="@+id/toggleButton1"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_gravity="right"
-                android:text="ToggleButton"
+                android:background="@drawable/power_off"
+                android:gravity="right"
                 android:scaleType="fitCenter"
-                android:background="@drawable/power_off" />
+                android:text="ToggleButton"
+                android:layout_alignParentRight="true" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/textView1"
