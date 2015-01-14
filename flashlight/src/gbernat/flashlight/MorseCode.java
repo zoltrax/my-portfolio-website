@@ -384,15 +384,15 @@ public class MorseCode extends Activity {
 		/**
 		 * Release Camera
 		 */
-		if (cam != null) {
-		//stopLights(v);
-	    mHandler.removeCallbacks(mRunnable);
-		cam.stopPreview();
-		cam.release();
-		cam = null;
-		
-		}
-		finish();
+//		if (cam != null) {
+//		//stopLights(v);
+//	    mHandler.removeCallbacks(mRunnable);
+//		cam.stopPreview();
+//		cam.release();
+//		cam = null;
+//		
+//		}
+//		finish();
 	}
 
 }

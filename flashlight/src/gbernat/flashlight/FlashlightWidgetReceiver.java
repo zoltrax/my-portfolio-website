@@ -61,11 +61,13 @@ public class FlashlightWidgetReceiver extends BroadcastReceiver {
                     // Open the default i.e. the first rear facing camera.
                     camera = Camera.open();
 
+                    
                     if(camera == null) {
                             Toast.makeText(context, "no camera", Toast.LENGTH_SHORT).show();
                     } else {
                             // Set the torch flash mode
                             Parameters param = camera.getParameters();
+                            
                             param.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
                             try {
                                     camera.setParameters(param);
