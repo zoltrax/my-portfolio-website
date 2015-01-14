@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Antorcha</string>
+    <string name="button_flashlight_on">vez</string>
+    <string name="button_flashlight_off">apagado</string>
+    <color name="title_color">#FFFFFF</color>
+    <color name="white">#000000</color>
+    <string name="label_warning">advertencia</string>
+    <string name="label_police">policía</string>
+    <string name="label_strobe_screen">estroboscópica pantalla</string>
+    <string name="label_morse">código morse</string>
+    <string name="label_strobe_light">estroboscópica luz</string>
+    <string name="label_frequency">frecuencia</string>
+    <string name="label_flashlight_screen">antorcha - pantalla</string>
+    <string name="label_sos">S.O.S.</string>
+    <string name="label_shake">agitarlo</string>
+    <string name="label_enter_mes">Entrar mensaje:</string>
+    <string name="label_transl_mes">Traducir mensaje</string>
+    <string name="label_start_lights">iniciar luces</string>
+    <string name="label_stop_lights">dejar de luces</string>
+    <string name="label_bat_st">Estado de la batería:</string>
+    <string name="label_go_to_app">&#160;a aplicación&#160;</string>  
+    <string name="label_busy_camera">Su cámara está ocupada. Por favor, apague.</string>
+</resources>
