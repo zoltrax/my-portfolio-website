@@ -7,6 +7,7 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.LinearLayout;
 
@@ -30,6 +31,9 @@ public class PoliceWarning extends Activity {
 		setContentView(R.layout.warning_orange);
 		mLinearLayoutTop = (LinearLayout) findViewById(R.id.linearLayout_main11top);
 		mLinearLayoutBottom = (LinearLayout) findViewById(R.id.linearLayout_main11bottom);
+		
+//		android.provider.Settings.System.putInt(getContentResolver(),
+//	            Settings.System.SCREEN_OFF_TIMEOUT, 10000);
 		startStrobe();
 
 	}

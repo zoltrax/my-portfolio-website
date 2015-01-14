@@ -179,14 +179,14 @@ public class StrobeLight extends Activity implements OnClickListener {
 		 * Release Camera
 		 */
 
-		mHandler.removeCallbacks(mRunnable);
-		if (cam != null) {
-			cam.stopPreview();
-			cam.release();
-			cam = null;
-		}
-
-		finish();
+//		mHandler.removeCallbacks(mRunnable);
+//		if (cam != null) {
+//			cam.stopPreview();
+//			cam.release();
+//			cam = null;
+//		}
+//
+//		finish();
 	}
 
 	@Override

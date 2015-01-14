@@ -139,6 +139,11 @@ public class Main extends Activity implements OnClickListener {
 		} else if (v == btn1) {
 
 			Intent strobeLight = new Intent(this, StrobeLight.class);
+			
+			if(camera!=null){
+				setFlashOff();
+			}
+			
 			startActivity(strobeLight);
 
 		} else if (v == btn2) {
@@ -149,6 +154,9 @@ public class Main extends Activity implements OnClickListener {
 		} else if (v == btn3) {
 
 			Intent morse = new Intent(this, MorseCode.class);
+			if(camera!=null){
+				setFlashOff();
+			}
 			startActivity(morse);
 			
 		} else if (v == btn4) {
@@ -230,8 +238,8 @@ public class Main extends Activity implements OnClickListener {
 		//mSensorManager.unregisterListener(mSensorListener);
 		super.onPause();
 		mSensorManager.unregisterListener(mShakeDetector);
-		//Log.v("onPause", "onPause");
-		setFlashOff();
+		Log.v("onPause", "onPause");
+		//setFlashOff();
 	}
 	
 	public void showDialog() {
