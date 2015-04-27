@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">手電 </string>   
+    <string name="button_flashlight_on">打开</string>   
+    <string name="button_flashlight_off">关闭</string>    
+    <color name="title_color">#FFFFFF</color>
+    <color name="white">#000000</color>
+    <string name="label_warning">警告</string>
+    <string name="label_police">警察</string>
+    <string name="label_strobe_screen">屏幕頻閃</string>
+    <string name="label_morse">莫尔斯电码</string>
+    <string name="label_strobe_light">闪光灯光</string>  
+    <string name="label_frequency">頻率</string>
+    <string name="label_flashlight_screen">手電筒 - 屏幕</string>
+    <string name="label_sos">S.O.S.</string>
+    <string name="label_shake">动摇</string>
+    <string name="label_enter_mes">輸入消息</string>
+    <string name="label_transl_mes">翻譯消息</string>
+    <string name="label_start_lights">開始</string>
+    <string name="label_stop_lights">停止</string>
+    <string name="label_bat_st">電池狀態:</string>
+    <string name="label_go_to_app">&#160;應用&#160;</string>  
+    <string name="label_busy_camera">你的相機忙 請關閉</string>
+</resources>

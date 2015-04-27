@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Antorcha</string>
-    <string name="button_flashlight_on">vez</string>
-    <string name="button_flashlight_off">apagado</string>
+    <string name="button_flashlight_on">encender</string>
+    <string name="button_flashlight_off">apagar</string>
     <color name="title_color">#FFFFFF</color>
     <color name="white">#000000</color>
     <string name="label_warning">advertencia</string>

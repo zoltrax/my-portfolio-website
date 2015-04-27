@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">torcia elettrica</string>    
+    <string name="button_flashlight_on">accendere</string>  
+    <string name="button_flashlight_off">spegnere</string>   
+    <color name="title_color">#FFFFFF</color>
+    <color name="white">#000000</color>
+    <string name="label_warning">avvertimento</string>
+    <string name="label_police">polizia</string>
+    <string name="label_strobe_screen">schermo strobo</string>
+    <string name="label_morse">codice morse</string>
+    <string name="label_strobe_light">luce stroboscopica</string>
+    <string name="label_frequency">frequenza</string>
+    <string name="label_flashlight_screen">torcia elettrica - schermo</string>
+    <string name="label_sos">S.O.S.</string>
+    <string name="label_shake">Scuoterla</string>
+    <string name="label_enter_mes">Inserisci il messaggio:</string>
+    <string name="label_transl_mes">Traduci messaggio</string>
+    <string name="label_start_lights">avviare illuminazione</string>
+    <string name="label_stop_lights">smettere di illuminazione</string>
+    <string name="label_bat_st">stato della batteria:</string>
+    <string name="label_go_to_app">&#160;applicazione&#160;</string>  
+    <string name="label_busy_camera">La fotocamera è occupato. Si prega di spegnere.</string>
+</resources>

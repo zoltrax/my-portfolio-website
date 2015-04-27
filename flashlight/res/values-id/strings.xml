@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Senter</string>   
+    <string name="button_flashlight_on">menghidupkan</string>    
+    <string name="button_flashlight_off">mematikan </string>    
+    <color name="title_color">#FFFFFF</color>
+    <color name="white">#000000</color>
+    <string name="label_warning">peringatan</string>
+    <string name="label_police">polisi</string>
+    <string name="label_strobe_screen">layar strobe</string>
+    <string name="label_morse">kode Morse</string>
+    <string name="label_strobe_light">strobe cahaya</string>
+    <string name="label_frequency">frekuensi</string>
+    <string name="label_flashlight_screen">Senter - layar</string>
+    <string name="label_sos">S.O.S.</string>
+    <string name="label_shake">kocok</string>
+    <string name="label_enter_mes">Masukkan pesan:</string>
+    <string name="label_transl_mes">Terjemahkan pesan</string>
+    <string name="label_start_lights">mulai lampu</string>
+    <string name="label_stop_lights">lampu berhenti</string>
+    <string name="label_bat_st">Status baterai:</string>
+    <string name="label_go_to_app">&#160;aplikasi&#160;</string>  
+    <string name="label_busy_camera">Kamera Anda sibuk. Harap matikan.</string>
+</resources>

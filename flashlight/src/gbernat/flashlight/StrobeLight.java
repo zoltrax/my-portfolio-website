@@ -30,8 +30,7 @@ public class StrobeLight extends Activity implements OnClickListener {
 	private static Parameters params;
 	private boolean isFlashOn = false;
 	private boolean mActive = false;
-	private boolean mSwap = true;
-
+	private static boolean mSwap = true;
 	private SeekBar frequencyBar;
 	int progressChanged = 100;
 	private TextView timeTextView;
@@ -44,14 +43,14 @@ public class StrobeLight extends Activity implements OnClickListener {
 			if (mActive) {
 				if (mSwap) {
 
-					mSwap = false;
 					flashLightOn();
 					mHandler.postDelayed(mRunnable, (progressChanged * 100));
+					mSwap = false;
 				} else {
 
-					mSwap = true;
 					flashLightOff();
 					mHandler.postDelayed(mRunnable, (progressChanged * 100));
+					mSwap = true;
 
 				}
 			}
@@ -72,84 +71,64 @@ public class StrobeLight extends Activity implements OnClickListener {
 		}
 
 		onOff = (ToggleButton) findViewById(R.id.toggleButton_on_off);
-
 		onOff.setOnClickListener(this);
-		
-	    timeTextView = (TextView) findViewById(R.id.timeTextView);
-	    timeTextView.setText(getString(R.string.label_flash_time) +" " + 10 + "s");
+
+		timeTextView = (TextView) findViewById(R.id.timeTextView);
+		timeTextView.setText(getString(R.string.label_flash_time) + " " + 10
+				+ "s");
 
 		frequencyBar = (SeekBar) findViewById(R.id.frequency_bar);
 		frequencyBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
-				progressChanged = 100-progress;
-				timeTextView.setText(getString(R.string.label_flash_time) +" "+ (progressChanged *100/1000F) + "s");
+				progressChanged = 100 - progress;
+				timeTextView.setText(getString(R.string.label_flash_time) + " "
+						+ (progressChanged * 100 / 1000F) + "s");
 			}
 
 			public void onStartTrackingTouch(SeekBar seekBar) {
 				// TODO Auto-generated method stub
 			}
 
-			public void onStopTrackingTouch(SeekBar seekBar) {						
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				if (mActive) {
+					mHandler.removeCallbacks(mRunnable);
+					mSwap = true;
+					startStrobe();
+				}
+
 			}
 		});
 	}
 
 	private void startStrobe() {
+		mHandler.removeCallbacks(mRunnable);
+		mSwap = true;
 		mActive = true;
 		mHandler.post(mRunnable);
 	}
 
 	public void flashLightOn() {
-		if (!isFlashOn) {
-			if (cam != null || params != null) {
-
-				params.setFlashMode(Parameters.FLASH_MODE_TORCH);
-				cam.setParameters(params);
-				cam.startPreview();
-				isFlashOn = true;
-			} else {
-
-				cam = Camera.open();
-				params = cam.getParameters();
-				params.setFlashMode(Parameters.FLASH_MODE_TORCH);
-				cam.setParameters(params);
-				cam.startPreview();
-				isFlashOn = true;
-			}
-		} else {
-			return;
-		}
+		params.setFlashMode(Parameters.FLASH_MODE_TORCH);
+		cam.setParameters(params);
+		cam.startPreview();
+		isFlashOn = true;
 	}
 
 	/*
 	 * This method turn off the LED camera flash light
 	 */
 	public void flashLightOff() {
-		if (isFlashOn) {
-			if (cam != null || params != null) {
-				params = cam.getParameters();
-				params.setFlashMode(Parameters.FLASH_MODE_OFF);
-				cam.setParameters(params);
-				cam.stopPreview();
-				isFlashOn = false;
-			} else {
-				params = cam.getParameters();
-				params.setFlashMode(Parameters.FLASH_MODE_OFF);
-				cam.setParameters(params);
-				cam.stopPreview();
-				isFlashOn = false;
-			}
-
-		} else {
-			return;
-		}
+		params = cam.getParameters();
+		params.setFlashMode(Parameters.FLASH_MODE_OFF);
+		cam.setParameters(params);
+		cam.stopPreview();
+		isFlashOn = false;
 	}
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-
 		// TODO Auto-generated method stub
 	}
 
@@ -175,18 +154,6 @@ public class StrobeLight extends Activity implements OnClickListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		/**
-		 * Release Camera
-		 */
-
-//		mHandler.removeCallbacks(mRunnable);
-//		if (cam != null) {
-//			cam.stopPreview();
-//			cam.release();
-//			cam = null;
-//		}
-//
-//		finish();
 	}
 
 	@Override
@@ -218,6 +185,7 @@ public class StrobeLight extends Activity implements OnClickListener {
 				params.setFlashMode(Parameters.FLASH_MODE_OFF);
 				cam.setParameters(params);
 				cam.startPreview();
+				mActive = false;
 				mHandler.removeCallbacks(mRunnable);
 			}
 
@@ -234,12 +202,14 @@ public class StrobeLight extends Activity implements OnClickListener {
 		alertDialog.setMessage(getApplication().getString(
 				R.string.label_busy_camera));
 		// Setting OK Button
-		alertDialog.setButton(Dialog.BUTTON_NEUTRAL,"OK", new DialogInterface.OnClickListener() {
-			public void onClick(final DialogInterface dialog, final int which) {
-				// Write your code here to execute after dialog closed
-				finish();
-			}
-		});
+		alertDialog.setButton(Dialog.BUTTON_NEUTRAL, "OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(final DialogInterface dialog,
+							final int which) {
+						// Write your code here to execute after dialog closed
+						finish();
+					}
+				});
 
 		alertDialog.show();
 	}

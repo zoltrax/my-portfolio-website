@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Taschenlampe</string>   
+    <string name="button_flashlight_on">anschalten</string>    
+    <string name="button_flashlight_off">abschalten</string>    
+    <color name="title_color">#FFFFFF</color>
+    <color name="white">#000000</color>
+    <string name="label_warning">Warnung</string>
+    <string name="label_police">Polizei</string>
+    <string name="label_strobe_screen">Strobe-Bildschirm</string>
+    <string name="label_morse">Morsezeichen</string>
+    <string name="label_strobe_light">Strobe Fleisch</string>
+    <string name="label_frequency">Frequenz</string>
+    <string name="label_flashlight_screen">Taschenlampe - Bildschirm</string>
+    <string name="label_sos">S.O.S.</string>
+    <string name="label_shake">schütteln</string>
+    <string name="label_enter_mes">Geben Sie Nachricht:</string>
+    <string name="label_transl_mes"> übersetzen Nachricht</string>
+    <string name="label_start_lights">start Beleuchtung</string>
+    <string name="label_stop_lights">aufhören Beleuchtung</string>
+    <string name="label_bat_st">Batteriestatus:</string>
+    <string name="label_go_to_app">&#160;Applikation&#160;</string>  
+    <string name="label_busy_camera">Ihre Kamera ist besetzt. Bitte ausschalten Sie.</string>
+</resources>
