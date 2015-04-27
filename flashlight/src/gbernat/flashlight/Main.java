@@ -8,9 +8,11 @@ import gbernat.flashlight.R;
 import gbernat.flashlight.ShakeDetector.OnShakeListener;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.hardware.Sensor;
@@ -19,14 +21,19 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.CameraProfile;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -34,6 +41,7 @@ import android.widget.ToggleButton;
 public class Main extends Activity implements OnClickListener {
 
 	ImageButton onOff;
+	ImageButton setting;
 
 	Button btn1;
 	Button btn2;
@@ -41,21 +49,16 @@ public class Main extends Activity implements OnClickListener {
 	Button btn4;
 	Button btn5;
 	Button btn6;
-	
+
 	Calendar now = Calendar.getInstance();
-	Calendar last = Calendar.getInstance(); 
+	Calendar last = Calendar.getInstance();
 
 	private static Camera camera;
 	private static Parameters parameters;
-	
-//	private SensorManager mSensorManager;
-//	private float mAccel; // acceleration apart from gravity
-//	private float mAccelCurrent; // current acceleration including gravity
-//	private float mAccelLast; // last acceleration including gravity
-	
 	private SensorManager mSensorManager;
-    private Sensor mAccelerometer;
-    private ShakeDetector mShakeDetector;
+	private Sensor mAccelerometer;
+	private ShakeDetector mShakeDetector;
+	private SeekBar sb;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class Main extends Activity implements OnClickListener {
 		setContentView(R.layout.main);
 
 		onOff = (ImageButton) findViewById(R.id.toggleButton1);
+		setting = (ImageButton) findViewById(R.id.settingButton1);
 
 		btn1 = (Button) findViewById(R.id.button1);
 		btn2 = (Button) findViewById(R.id.button2);
@@ -72,7 +76,7 @@ public class Main extends Activity implements OnClickListener {
 		btn6 = (Button) findViewById(R.id.button6);
 
 		onOff.setOnClickListener(this);
-		// onOff.setChecked(false);
+		setting.setOnClickListener(this);
 
 		btn1.setOnClickListener(this);
 		btn2.setOnClickListener(this);
@@ -80,49 +84,29 @@ public class Main extends Activity implements OnClickListener {
 		btn4.setOnClickListener(this);
 		btn5.setOnClickListener(this);
 		btn6.setOnClickListener(this);
-		
-//		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-//	    mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-//	    mAccel = 0.00f;
-//	    mAccelCurrent = SensorManager.GRAVITY_EARTH;
-//	    mAccelLast = SensorManager.GRAVITY_EARTH;
-		
+
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager
-                .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mShakeDetector = new ShakeDetector();
-        mShakeDetector.setOnShakeListener(new OnShakeListener() {
- 
-            @Override
-            public void onShake(int count) {
-                /*
-                 * The following method, "handleShakeEvent(count):" is a stub //
-                 * method you would use to setup whatever you want done once the
-                 * device has been shook.
-                 */
-                handleShakeEvent(count);
-            }
-        });
-	    
-	    //now.setTime(new Date());
+		mAccelerometer = mSensorManager
+				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		mShakeDetector = new ShakeDetector();
+		mShakeDetector.setOnShakeListener(new OnShakeListener() {
+
+			@Override
+			public void onShake(int count) {
+				handleShakeEvent(count);
+			}
+		});
+
 	}
 
 	protected void handleShakeEvent(int count) {
-		// TODO Auto-generated method stub
-		//if(count == 1){
-			
-		//Log.v("cycki",""+count);
-		
-		
-		if (camera!=null) {
+
+		if (camera != null) {
 			setFlashOff();
-			//Log.v("cycki","off");
 			return;
 		} else {
 			setFlashOn();
-			//Log.v("cycki","on");
 		}
-		//}
 	}
 
 	@Override
@@ -139,11 +123,9 @@ public class Main extends Activity implements OnClickListener {
 		} else if (v == btn1) {
 
 			Intent strobeLight = new Intent(this, StrobeLight.class);
-			
-			if(camera!=null){
+			if (camera != null) {
 				setFlashOff();
 			}
-			
 			startActivity(strobeLight);
 
 		} else if (v == btn2) {
@@ -154,11 +136,11 @@ public class Main extends Activity implements OnClickListener {
 		} else if (v == btn3) {
 
 			Intent morse = new Intent(this, MorseCode.class);
-			if(camera!=null){
+			if (camera != null) {
 				setFlashOff();
 			}
 			startActivity(morse);
-			
+
 		} else if (v == btn4) {
 
 			Intent warningOrange = new Intent(this, WarningOrange.class);
@@ -172,36 +154,132 @@ public class Main extends Activity implements OnClickListener {
 		} else if (v == btn6) {
 			Intent flashScreen = new Intent(this, ScreenFlashlight.class);
 			startActivity(flashScreen);
+		} else if (v == setting) {
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View layout = inflater.inflate(R.layout.alert_dialog_settings,
+					(ViewGroup) findViewById(R.id.sensivityLayout));
+			AlertDialog.Builder builder = new AlertDialog.Builder(this)
+					.setView(layout);
+			final AlertDialog alertDialog = builder.create();
+			alertDialog.show();
+			sb = (SeekBar) layout.findViewById(R.id.sensivityDialogSeekbar);
+			Button ok = (Button) layout.findViewById(R.id.okDialogButton);
+			setting.setImageResource(R.drawable.setting_icon2);
+			ok.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					SharedPreferences sharedPref = PreferenceManager
+							.getDefaultSharedPreferences(Utils.getAppContext());
+					SharedPreferences.Editor editor = sharedPref.edit();
+					editor.putInt(getString(R.string.shake_sensivity),
+							sb.getProgress());
+					editor.commit();
+					setting.setImageResource(R.drawable.setting_icon);
+					alertDialog.dismiss();
+				}
+			});
+
+			Button no = (Button) layout.findViewById(R.id.noDialogButton);
+			no.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					setting.setImageResource(R.drawable.setting_icon);
+					alertDialog.dismiss();
+				}
+			});
+
+			alertDialog.setOnKeyListener(new Dialog.OnKeyListener() {
+
+				@Override
+				public boolean onKey(DialogInterface arg0, int keyCode,
+						KeyEvent event) {
+					// TODO Auto-generated method stub
+					if (keyCode == KeyEvent.KEYCODE_BACK) {
+						setting.setImageResource(R.drawable.setting_icon);
+						alertDialog.dismiss();
+					}
+					return true;
+				}
+			});
+
+			final TextView dialogProgress = (TextView) layout
+					.findViewById(R.id.dialogProgress);
+			sb.setMax(20);
+			SharedPreferences sharedPref = PreferenceManager
+					.getDefaultSharedPreferences(Utils.getAppContext());
+			int sensivity_sk = sharedPref.getInt(
+					getString(R.string.shake_sensivity), 666);
+
+			if (sensivity_sk == 666) {
+
+				sb.setProgress(9);
+
+			} else {
+
+				sb.setProgress(sensivity_sk);
+				dialogProgress.setText("" + sensivity_sk * 5
+						+ getString(R.string.percent));
+
+			}
+
+			sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+				public void onProgressChanged(SeekBar seekBar, int progress,
+						boolean fromUser) {
+					// Do something here with new value
+
+					float percent = progress * 5;
+
+					dialogProgress.setText("" + percent
+							+ getString(R.string.percent));
+
+					float sensivityPercentValue = (progress * 0.11f) + 1.3f;
+
+				}
+
+				@Override
+				public void onStartTrackingTouch(SeekBar seekBar) {
+					// TODO Auto-generated method stub
+				}
+
+				@Override
+				public void onStopTrackingTouch(SeekBar seekBar) {
+					// TODO Auto-generated method stub
+				}
+			});
+
 		}
 
 	}
 
 	private void setFlashOn() {
-		try{
-		if (camera == null)
-			camera = Camera.open();
-		parameters = camera.getParameters();
-		parameters.setFlashMode(Parameters.FLASH_MODE_TORCH);
-		camera.setParameters(parameters);
-		onOff.setImageResource(R.drawable.power_on);
-		}catch(Exception e){
-			//Toast.makeText(this, "Your camera is busy, perhaps another App or Widget uses it. Please ", 2000).show();
+		try {
+			if (camera == null)
+				camera = Camera.open();
+			parameters = camera.getParameters();
+			parameters.setFlashMode(Parameters.FLASH_MODE_TORCH);
+			camera.setParameters(parameters);
+			onOff.setImageResource(R.drawable.power_on);
+		} catch (Exception e) {
 			showDialog();
 		}
 	}
 
 	private void setFlashOff() {
-		try{
-		if (camera != null) {
-			onOff.setImageResource(R.drawable.power_off);
-			parameters = camera.getParameters();
-			parameters.setFlashMode(Parameters.FLASH_MODE_OFF);
-			camera.setParameters(parameters);
-			camera.stopPreview();
-			camera.release();
-			camera = null;
-		}
-		}catch(Exception e){
+		try {
+			if (camera != null) {
+				onOff.setImageResource(R.drawable.power_off);
+				parameters = camera.getParameters();
+				parameters.setFlashMode(Parameters.FLASH_MODE_OFF);
+				camera.setParameters(parameters);
+				camera.stopPreview();
+				camera.release();
+				camera = null;
+			}
+		} catch (Exception e) {
 			showDialog();
 		}
 
@@ -235,89 +313,34 @@ public class Main extends Activity implements OnClickListener {
 
 	@Override
 	public void onPause() {
-		//mSensorManager.unregisterListener(mSensorListener);
 		super.onPause();
 		mSensorManager.unregisterListener(mShakeDetector);
-		Log.v("onPause", "onPause");
-		//setFlashOff();
 	}
-	
+
 	public void showDialog() {
 		AlertDialog alertDialog = new AlertDialog.Builder(Main.this).create();
-
 		// Setting Dialog Title
 		alertDialog.setTitle(getApplication().getString(R.string.app_name));
-		//alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		//alertDialog.setContentView(R.layout.appwidgetlay);
-
+		// alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// alertDialog.setContentView(R.layout.appwidgetlay);
 		// Setting Dialog Message
-		alertDialog.setMessage(getApplication().getString(R.string.label_busy_camera));
-
-		// Setting Icon to Dialog
-		// alertDialog.setIcon(R.drawable.tick);
-
+		alertDialog.setMessage(getApplication().getString(
+				R.string.label_busy_camera));
 		// Setting OK Button
 		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				// Write your code here to execute after dialog closed
-				
 			}
 		});
-
 		// Showing Alert Message
 		alertDialog.show();
 	}
-	
-	  @Override
-	  protected void onResume() {
-	    super.onResume();
-	    mSensorManager.registerListener(mShakeDetector, mAccelerometer,	SensorManager.SENSOR_DELAY_UI);
-	    //mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
-	  }
-	  
-//	  private final SensorEventListener mSensorListener = new SensorEventListener() {
-//
-//
-//		    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-//		    	
-//		    	
-//			     // Calendar now = Calendar.getInstance(); 
-//			      //
-//			     
-//			     Log.v("cos","cos");
-//			     
-//		    }
-//
-//			@Override
-//			public void onSensorChanged(SensorEvent event) {
-//				// TODO Auto-generated method stub
-//				  float x = event.values[0];
-//			      float y = event.values[1];
-//			      float z = event.values[2];
-//			      mAccelLast = mAccelCurrent;
-//			      mAccelCurrent = (float) android.util.FloatMath.sqrt((float) (x*x + y*y + z*z));
-//			      float delta = mAccelCurrent - mAccelLast;
-//			      mAccel = mAccel * 0.9f + delta; // perform low-cut filter
-//			      
-//			     
-//			     
-//			      if (mAccel > 6) {
-//			    	  now.setTime(new Date()); 
-//				      //Log.v("now time",""+now.getTimeInMillis());		 
-//				      long diff = now.getTimeInMillis() - last.getTimeInMillis();
-//			    	  //Log.v("diff","diff "+diff);
-//			    	  	if(diff>750){
-//			    	  		last.setTime(now.getTime()); 
-//			    	  		if (camera == null) {
-//			    	  			setFlashOn();
-//			    	  		} else {
-//			    	  			setFlashOff();
-//			    	  		}
-//			    	  	}
-//			    	  //	Toast.makeText(getApplicationContext(), "shake it baybe shake it", 1000).show();
-//				   }
-//			  }
-//			
-//		  };
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mSensorManager.registerListener(mShakeDetector, mAccelerometer,
+				SensorManager.SENSOR_DELAY_UI);
+	}
 
 }

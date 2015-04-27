@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sensivityLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/sensivityLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/dialogTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="14dp"
+            android:text="@string/dialog_title"
+            android:textSize="24dp" />
+
+        <TextView
+            android:id="@+id/dialogProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dialogTitle"
+            android:layout_margin="14dp"
+            android:hint="@string/initial_value_percent"
+            android:textSize="24dp" />
+    </RelativeLayout>
+
+    <SeekBar
+        android:id="@+id/sensivityDialogSeekbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sensivityLayout2"
+        android:layout_margin="10dp"
+        android:progress="0" >
+    </SeekBar>
+
+    <RelativeLayout
+        android:id="@+id/dialogButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sensivityDialogSeekbar"
+        android:layout_margin="10dp" >
+
+        <Button
+            android:id="@+id/okDialogButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/appwidget_bg_clickable"
+            android:text="@string/ok"
+            android:textColor="@color/Orange" />
+
+        <Button
+            android:id="@+id/noDialogButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/appwidget_bg_clickable"
+            android:text="@string/no"
+            android:textColor="@color/Orange" />
+    </RelativeLayout>
+
+</RelativeLayout>

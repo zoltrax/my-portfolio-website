@@ -316,21 +316,21 @@ public class MorseCode extends Activity {
 		return morse;
 	}
 
-//	@Override
-//	public void onBackPressed() {
-//
-//		if (cam != null) {
-//			params.setFlashMode(Parameters.FLASH_MODE_OFF);
-//			cam.setParameters(params);
-//
-//			mHandler.removeCallbacks(mRunnable);
-//			cam.stopPreview();
-//			cam.release();
-//			cam = null;
-//		}
-//		finish();
-//
-//	}
+	@Override
+	public void onBackPressed() {
+
+		if (cam != null) {
+			params.setFlashMode(Parameters.FLASH_MODE_OFF);
+			cam.setParameters(params);
+
+			mHandler.removeCallbacks(mRunnable);
+			cam.stopPreview();
+			cam.release();
+			cam = null;
+		}
+		finish();
+
+	}
 	
 	public void showDialog() {
 		AlertDialog alertDialog = new AlertDialog.Builder(MorseCode.this).create();

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">lampe de poche</string>   
+    <string name="button_flashlight_on">allumer</string>  
+    <string name="button_flashlight_off">éteindre</string>
+    <color name="title_color">#FFFFFF</color>
+    <color name="white">#000000</color>
+    <string name="label_warning">avertissement</string>
+    <string name="label_police">police</string>
+    <string name="label_strobe_screen">écran stroboscopique</string>
+    <string name="label_morse">le code Morse</string>
+    <string name="label_strobe_light">lumière stroboscopique</string>
+    <string name="label_frequency">fréquence</string>
+    <string name="label_flashlight_screen">lampe de poche - écran</string>
+    <string name="label_sos">S.O.S.</string>
+    <string name="label_shake">Secouez</string>
+    <string name="label_enter_mes">Entrez un message:</string>
+    <string name="label_transl_mes">Traduire un message</string>
+    <string name="label_start_lights">commencer éclairage</string>
+    <string name="label_stop_lights">arrêter l\'éclairage</string>
+    <string name="label_bat_st">état de la batterie:</string>
+    <string name="label_go_to_app">&#160;application&#160;</string>  
+    <string name="label_busy_camera">Votre appareil photo est occupé. Veuillez désactiver .</string>
+</resources>

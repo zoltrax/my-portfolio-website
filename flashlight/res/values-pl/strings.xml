@@ -22,4 +22,8 @@
     <string name="label_go_to_app">&#160;do aplikacji&#160;</string>
     <string name="label_busy_camera">Aparat jest zajęty, być może inna aplikacja lub widget go używa. Proszę wyłącz go.</string>
     <string name="label_flash_time">czas błysku: </string>
+    <string name="dialog_title">potrząśnij - czułość</string>
+    <string name="ok">ok</string>
+    <string name="no">wyjście</string>
+    <string name="percent">%</string>
 </resources>
