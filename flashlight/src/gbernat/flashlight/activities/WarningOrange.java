@@ -1,6 +1,8 @@
-package gbernat.flashlight;
+package gbernat.flashlight.activities;
 
 import gbernat.flashlight.R;
+import gbernat.flashlight.R.id;
+import gbernat.flashlight.R.layout;
 import android.app.Activity;
 import android.graphics.Color;
 import android.hardware.Camera;
@@ -8,6 +10,7 @@ import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 public class WarningOrange extends Activity {
@@ -28,9 +31,14 @@ public class WarningOrange extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.warning_orange);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		mLinearLayoutTop = (LinearLayout) findViewById(R.id.linearLayout_main11top);
 		mLinearLayoutBottom = (LinearLayout) findViewById(R.id.linearLayout_main11bottom);
 		startStrobe();
+		
+		WindowManager.LayoutParams params = getWindow().getAttributes();
+		params.screenBrightness = 1;
+		getWindow().setAttributes(params);
 
 	}
 

@@ -3,8 +3,6 @@
     <string name="app_name">Torcha</string>
     <string name="button_flashlight_on">vez</string>
     <string name="button_flashlight_off">fora</string>
-    <color name="title_color">#FFFFFF</color>
-    <color name="white">#000000</color>
     <string name="label_warning">advertência</string>
     <string name="label_police">polícia</string>
     <string name="label_strobe_screen">strobe tela</string>

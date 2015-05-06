@@ -3,8 +3,6 @@
     <string name="app_name">torcia elettrica</string>    
     <string name="button_flashlight_on">accendere</string>  
     <string name="button_flashlight_off">spegnere</string>   
-    <color name="title_color">#FFFFFF</color>
-    <color name="white">#000000</color>
     <string name="label_warning">avvertimento</string>
     <string name="label_police">polizia</string>
     <string name="label_strobe_screen">schermo strobo</string>

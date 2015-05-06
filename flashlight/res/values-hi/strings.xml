@@ -3,8 +3,6 @@
     <string name="app_name">टॉर्च</string>    
     <string name="button_flashlight_on">चालू करो</string>    
     <string name="button_flashlight_off">बंद करें</string>   
-    <color name="title_color">#FFFFFF</color>
-    <color name="white">#000000</color>
     <string name="label_warning">चेतावनी</string>
     <string name="label_police">पुलिस</string>
     <string name="label_strobe_screen">strobe screen</string>

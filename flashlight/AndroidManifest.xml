@@ -12,12 +12,13 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 	<uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <application
         android:name="gbernat.flashlight.Utils"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name="gbernat.flashlight.Main"
+            android:name="gbernat.flashlight.activities.Main"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -27,40 +28,41 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="gbernat.flashlight.StrobeLight"
+            android:name="gbernat.flashlight.activities.StrobeLight"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name="gbernat.flashlight.StrobeScreen"
+            android:name="gbernat.flashlight.activities.StrobeScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name="gbernat.flashlight.ScreenFlashlight"
+            android:name="gbernat.flashlight.activities.ScreenFlashlight"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name="gbernat.flashlight.WarningOrange"
+            android:name="gbernat.flashlight.activities.WarningOrange"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name="gbernat.flashlight.PoliceWarning"
+            android:name="gbernat.flashlight.activities.PoliceWarning"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name="gbernat.flashlight.MorseCode"
+            android:name="gbernat.flashlight.activities.MorseCode"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+       
+            android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
 
         <receiver android:name="AppWidgetProvider" >

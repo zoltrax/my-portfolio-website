@@ -1,6 +1,8 @@
-package gbernat.flashlight;
+package gbernat.flashlight.activities;
 
 import gbernat.flashlight.R;
+import gbernat.flashlight.R.id;
+import gbernat.flashlight.R.layout;
 import android.app.Activity;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;

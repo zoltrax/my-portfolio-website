@@ -3,8 +3,6 @@
     <string name="app_name">Flashlight</string>
     <string name="button_flashlight_on">On</string>
     <string name="button_flashlight_off">Off</string>
-    <color name="title_color">#FFFFFF</color>
-    <color name="white">#000000</color>
     <string name="label_warning">warning</string>
     <string name="label_police">police</string>
     <string name="label_strobe_screen">strobe screen</string>
@@ -28,4 +26,6 @@
     <string name="percent">%</string>
     <string name="initial_value_percent">45%</string>
     <string name="shake_sensivity">sensivity_sk</string>
+    <string name="time_unit_seconds">s</string>
+    <string name="label_speed">speed</string>
 </resources>

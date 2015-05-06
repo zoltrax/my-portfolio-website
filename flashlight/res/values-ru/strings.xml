@@ -3,8 +3,6 @@
     <string name="app_name">фонарик</string>
     <string name="button_flashlight_on">на</string>
     <string name="button_flashlight_off">от</string>
-    <color name="title_color">#FFFFFF</color>
-    <color name="white">#000000</color>
     <string name="label_warning">предупреждение</string>
     <string name="label_police">полиция</string>
     <string name="label_strobe_screen">строб экран</string>

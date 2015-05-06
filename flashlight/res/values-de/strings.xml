@@ -3,8 +3,6 @@
     <string name="app_name">Taschenlampe</string>   
     <string name="button_flashlight_on">anschalten</string>    
     <string name="button_flashlight_off">abschalten</string>    
-    <color name="title_color">#FFFFFF</color>
-    <color name="white">#000000</color>
     <string name="label_warning">Warnung</string>
     <string name="label_police">Polizei</string>
     <string name="label_strobe_screen">Strobe-Bildschirm</string>
