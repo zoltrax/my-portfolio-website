@@ -3,8 +3,6 @@
     <string name="app_name">lampe de poche</string>   
     <string name="button_flashlight_on">allumer</string>  
     <string name="button_flashlight_off">éteindre</string>
-    <color name="title_color">#FFFFFF</color>
-    <color name="white">#000000</color>
     <string name="label_warning">avertissement</string>
     <string name="label_police">police</string>
     <string name="label_strobe_screen">écran stroboscopique</string>

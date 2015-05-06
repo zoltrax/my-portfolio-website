@@ -3,8 +3,6 @@
     <string name="app_name">手電 </string>   
     <string name="button_flashlight_on">打开</string>   
     <string name="button_flashlight_off">关闭</string>    
-    <color name="title_color">#FFFFFF</color>
-    <color name="white">#000000</color>
     <string name="label_warning">警告</string>
     <string name="label_police">警察</string>
     <string name="label_strobe_screen">屏幕頻閃</string>

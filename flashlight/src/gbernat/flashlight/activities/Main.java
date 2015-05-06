@@ -1,10 +1,16 @@
-package gbernat.flashlight;
+package gbernat.flashlight.activities;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
 import gbernat.flashlight.R;
+import gbernat.flashlight.ShakeDetector;
+import gbernat.flashlight.Utils;
+import gbernat.flashlight.R.drawable;
+import gbernat.flashlight.R.id;
+import gbernat.flashlight.R.layout;
+import gbernat.flashlight.R.string;
 import gbernat.flashlight.ShakeDetector.OnShakeListener;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -21,6 +27,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.CameraProfile;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -30,6 +38,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -42,7 +51,10 @@ public class Main extends Activity implements OnClickListener {
 
 	ImageButton onOff;
 	ImageButton setting;
-
+	
+	PowerManager powerManager;
+	WakeLock wakeLock;
+	     
 	Button btn1;
 	Button btn2;
 	Button btn3;
@@ -64,6 +76,13 @@ public class Main extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
+		//getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+		        "MyWakelockTag");
+		
+		wakeLock.acquire();
 
 		onOff = (ImageButton) findViewById(R.id.toggleButton1);
 		setting = (ImageButton) findViewById(R.id.settingButton1);
@@ -155,6 +174,8 @@ public class Main extends Activity implements OnClickListener {
 			Intent flashScreen = new Intent(this, ScreenFlashlight.class);
 			startActivity(flashScreen);
 		} else if (v == setting) {
+			
+		
 			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View layout = inflater.inflate(R.layout.alert_dialog_settings,
 					(ViewGroup) findViewById(R.id.sensivityLayout));
@@ -186,10 +207,23 @@ public class Main extends Activity implements OnClickListener {
 
 				@Override
 				public void onClick(View v) {
+//					WindowManager.LayoutParams params = getWindow().getAttributes();
+//					params.screenBrightness = 1;
+//					getWindow().setAttributes(params);
 					// TODO Auto-generated method stub
 					setting.setImageResource(R.drawable.setting_icon);
 					alertDialog.dismiss();
 				}
+			});
+			
+			alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener(){
+
+				@Override
+				public void onDismiss(DialogInterface dialog) {
+					// TODO Auto-generated method stub
+					setting.setImageResource(R.drawable.setting_icon);
+				}
+				
 			});
 
 			alertDialog.setOnKeyListener(new Dialog.OnKeyListener() {
@@ -315,15 +349,15 @@ public class Main extends Activity implements OnClickListener {
 	public void onPause() {
 		super.onPause();
 		mSensorManager.unregisterListener(mShakeDetector);
+		
 	}
+	
 
 	public void showDialog() {
 		AlertDialog alertDialog = new AlertDialog.Builder(Main.this).create();
 		// Setting Dialog Title
 		alertDialog.setTitle(getApplication().getString(R.string.app_name));
-		// alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		// alertDialog.setContentView(R.layout.appwidgetlay);
-		// Setting Dialog Message
+
 		alertDialog.setMessage(getApplication().getString(
 				R.string.label_busy_camera));
 		// Setting OK Button

@@ -3,8 +3,6 @@
     <string name="app_name">Antorcha</string>
     <string name="button_flashlight_on">encender</string>
     <string name="button_flashlight_off">apagar</string>
-    <color name="title_color">#FFFFFF</color>
-    <color name="white">#000000</color>
     <string name="label_warning">advertencia</string>
     <string name="label_police">policía</string>
     <string name="label_strobe_screen">estroboscópica pantalla</string>

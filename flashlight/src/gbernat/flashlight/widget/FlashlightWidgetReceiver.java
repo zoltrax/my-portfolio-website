@@ -1,8 +1,11 @@
-package gbernat.flashlight;
+package gbernat.flashlight.widget;
 
 import java.util.Calendar;
 
-import gbernat.flashlight.AppWidgetProvider;
+import gbernat.flashlight.R;
+import gbernat.flashlight.R.drawable;
+import gbernat.flashlight.R.id;
+import gbernat.flashlight.R.layout;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;

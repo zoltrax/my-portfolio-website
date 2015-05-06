@@ -3,8 +3,6 @@
     <string name="app_name">Latarka</string>
     <string name="button_flashlight_on">włącz</string>
     <string name="button_flashlight_off">wyłącz</string>
-    <color name="title_color">#FFFFFF</color>
-    <color name="white">#000000</color>
     <string name="label_warning">ostrzeżenie</string>
     <string name="label_police">policja</string>
     <string name="label_strobe_screen">ekran stroboskopowy</string>
@@ -26,4 +24,7 @@
     <string name="ok">ok</string>
     <string name="no">wyjście</string>
     <string name="percent">%</string>
+    <string name="initial_value_percent">45%</string>
+    <string name="shake_sensivity">sensivity_sk</string>
+    <string name="time_unit_seconds">s</string>
 </resources>

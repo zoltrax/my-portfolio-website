@@ -3,8 +3,6 @@
     <string name="app_name">Senter</string>   
     <string name="button_flashlight_on">menghidupkan</string>    
     <string name="button_flashlight_off">mematikan </string>    
-    <color name="title_color">#FFFFFF</color>
-    <color name="white">#000000</color>
     <string name="label_warning">peringatan</string>
     <string name="label_police">polisi</string>
     <string name="label_strobe_screen">layar strobe</string>

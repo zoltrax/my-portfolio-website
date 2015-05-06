@@ -1,8 +1,11 @@
-package gbernat.flashlight;
+package gbernat.flashlight.activities;
 
 import java.io.IOException;
 
 import gbernat.flashlight.R;
+import gbernat.flashlight.R.id;
+import gbernat.flashlight.R.layout;
+import gbernat.flashlight.R.string;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -12,6 +15,8 @@ import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -34,6 +39,9 @@ public class StrobeLight extends Activity implements OnClickListener {
 	private SeekBar frequencyBar;
 	int progressChanged = 100;
 	private TextView timeTextView;
+	
+	PowerManager powerManager;
+	WakeLock wakeLock;
 
 	ToggleButton onOff;
 
@@ -62,6 +70,12 @@ public class StrobeLight extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.strobe_light);
+		
+		powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+		        "MyWakelockTag");
+		
+		wakeLock.acquire();
 
 		try {
 			cam = Camera.open();
@@ -84,7 +98,7 @@ public class StrobeLight extends Activity implements OnClickListener {
 					boolean fromUser) {
 				progressChanged = 100 - progress;
 				timeTextView.setText(getString(R.string.label_flash_time) + " "
-						+ (progressChanged * 100 / 1000F) + "s");
+						+ (progressChanged * 100 / 1000F) + getString(R.string.time_unit_seconds));
 			}
 
 			public void onStartTrackingTouch(SeekBar seekBar) {
