@@ -11,6 +11,7 @@ import gbernat.flashlight.R.id;
 import gbernat.flashlight.R.layout;
 import gbernat.flashlight.R.string;
 import gbernat.flashlight.controls.MyEditText;
+import gbernat.flashlight.controls.VerticalScrollView;
 import android.R.anim;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -19,8 +20,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -36,6 +39,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,6 +51,7 @@ import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
@@ -124,35 +129,37 @@ public class MorseCode extends Activity {
 		SharedPreferences sharedPref = PreferenceManager
 				.getDefaultSharedPreferences(Utils.getAppContext());
 		currentIndex = sharedPref.getInt("morseSpeed", 0);
-		
+
 		Animation fadeOut = new AlphaAnimation(1, 0.2f);
 		fadeOut.setInterpolator(new AccelerateInterpolator());
 		fadeOut.setFillAfter(true);
 		fadeOut.setDuration(400);
 
 		if (currentIndex == 0) {
-					
+
 			btnMinus.startAnimation(fadeOut);
 			btnMinus.setEnabled(false);
 
 		} else if (currentIndex == 5) {
-			
+
 			btnPlus.startAnimation(fadeOut);
 			btnPlus.setEnabled(false);
 
 		}
 
 		speedText.setText(textToShow[currentIndex]);
-
+		showMorseTextView.setMovementMethod(new ScrollingMovementMethod());
 		messageEditText.addTextChangedListener(new TextWatcher() {
 
 			public void afterTextChanged(Editable s) {
 
-				showMorseTextView.setText(stringConvert(messageEditText
-						.getText().toString()));
-				// showMorseTextView.get;
-				// messageEditText.scrollTo(x, y);
-				Log.v("line", "" + showMorseTextView.getHeight());
+				new Translate().execute();
+
+				if (showMorseTextView.getLineCount() > 2) {
+					showMorseTextView.scrollTo(0,
+							showMorseTextView.getLineHeight()
+									* (showMorseTextView.getLineCount() - 3));
+				}
 
 			}
 
@@ -164,8 +171,6 @@ public class MorseCode extends Activity {
 					int count) {
 			}
 		});
-
-		showMorseTextView.setMovementMethod(new ScrollingMovementMethod());
 
 		messageEditText
 				.setOnEditorActionListener(new MyEditText.OnEditorActionListener() {
@@ -372,7 +377,6 @@ public class MorseCode extends Activity {
 	public void speedPlus(View v) {
 
 		currentIndex++;
-
 		Animation in = AnimationUtils.loadAnimation(this, R.anim.slide_in_up);
 		Animation out = AnimationUtils.loadAnimation(this,
 				R.anim.slide_out_bottom);
@@ -383,24 +387,25 @@ public class MorseCode extends Activity {
 		// If index reaches maximum reset it
 		if (currentIndex > 5) {
 			currentIndex = 5;
-			
+
 		} else {
-			if(currentIndex==5){
-			Animation fadeOut = new AlphaAnimation(1, 0.2f);
-			fadeOut.setInterpolator(new AccelerateInterpolator());
-			fadeOut.setFillAfter(true);
-			fadeOut.setDuration(400);
-			btnPlus.setEnabled(false);
-			btnPlus.startAnimation(fadeOut);
-			speedText.setText(textToShow[currentIndex]);
+			if (currentIndex == 5) {
+				Animation fadeOut = new AlphaAnimation(1, 0.2f);
+				fadeOut.setInterpolator(new AccelerateInterpolator());
+				fadeOut.setFillAfter(true);
+				fadeOut.setDuration(400);
+				btnPlus.setEnabled(false);
+				btnPlus.startAnimation(fadeOut);
+				speedText.setText(textToShow[currentIndex]);
 			}
-			
-			speedText.setText(textToShow[currentIndex]);
+
+			// speedText.setText(textToShow[currentIndex]);
+			new Animate().execute();
 		}
-		
-		if(currentIndex==1){
+
+		if (currentIndex == 1) {
 			btnMinus.setEnabled(true);
-			Animation fadeOut = new AlphaAnimation(0.2f,1);
+			Animation fadeOut = new AlphaAnimation(0.2f, 1);
 			fadeOut.setInterpolator(new AccelerateInterpolator());
 			fadeOut.setFillAfter(true);
 			fadeOut.setDuration(400);
@@ -428,11 +433,10 @@ public class MorseCode extends Activity {
 		// If index reaches maximum reset it
 		if (currentIndex < 0) {
 			currentIndex = 0;
-			
 
-		}else{
-			
-			if(currentIndex==0){
+		} else {
+
+			if (currentIndex == 0) {
 				Animation fadeOut = new AlphaAnimation(1, 0.2f);
 				fadeOut.setInterpolator(new AccelerateInterpolator());
 				fadeOut.setFillAfter(true);
@@ -440,12 +444,12 @@ public class MorseCode extends Activity {
 				btnMinus.setEnabled(false);
 				btnMinus.startAnimation(fadeOut);
 			}
-			
+
 		}
-			speedText.setText(textToShow[currentIndex]);
-		if(currentIndex==4){
+		speedText.setText(textToShow[currentIndex]);
+		if (currentIndex == 4) {
 			btnPlus.setEnabled(true);
-			Animation fadeOut = new AlphaAnimation(0.2f,1);
+			Animation fadeOut = new AlphaAnimation(0.2f, 1);
 			fadeOut.setInterpolator(new AccelerateInterpolator());
 			fadeOut.setFillAfter(true);
 			fadeOut.setDuration(400);
@@ -464,10 +468,11 @@ public class MorseCode extends Activity {
 				.toString()));
 	}
 
-	public static String stringConvert(String userString) {
+	public static StringBuffer stringConvert(String userString) {
 		String currentChar;
 		String getMorseChar;
-		String convertedString = "";
+		// String convertedString = "";
+		StringBuffer convertedString2 = new StringBuffer();
 
 		for (int i = 0; i < userString.length(); i++) {
 			// Get character at i position
@@ -478,25 +483,29 @@ public class MorseCode extends Activity {
 
 			// seperate words with the | symbol
 			if (getMorseChar.equals(" ")) {
-				Log.v("convertedString", convertedString + "l");
-				convertedString = convertedString.substring(0,
-						convertedString.length() - 1)
-						+ "|";
-				Log.v("convertedString", convertedString);
+				if (convertedString2.length() != 0) {
+					convertedString2 = convertedString2.insert(
+							convertedString2.length() - 1, '|');
+					convertedString2
+							.deleteCharAt(convertedString2.length() - 1);
+				}
 			}
 
 			else {
-				// concat the converted letter
-				convertedString = convertedString + getMorseChar;
+				convertedString2 = convertedString2.insert(
+						convertedString2.length(), getMorseChar);
 
-				// Add a space between each letter
-				if (!getMorseChar.equals(" ") && (!convertedString.equals("|"))) {
-					convertedString = convertedString + " ";
+				if (!getMorseChar.equals(' ')
+						&& (convertedString2
+								.charAt(convertedString2.length() - 1) != ('|'))) {
+					convertedString2 = convertedString2.insert(
+							convertedString2.length(), ' ');// + " ";
 				}
+
 			}
 		}
 
-		return convertedString;
+		return convertedString2;
 
 	}
 
@@ -631,6 +640,39 @@ public class MorseCode extends Activity {
 		/**
 		 * Release Camera
 		 */
+
+	}
+
+	public class Translate extends AsyncTask<Void, Void, String> {
+
+		@Override
+		protected String doInBackground(Void... arg0) {
+			// TODO Auto-generated method stub
+			return stringConvert(messageEditText.getText().toString())
+					.toString();
+			// return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			showMorseTextView.setText(result);
+		}
+
+	}
+
+	public class Animate extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... arg0) {
+			// TODO Auto-generated method stub
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			speedText.setText(textToShow[currentIndex]);
+		}
 
 	}
 
