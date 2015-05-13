@@ -3,10 +3,7 @@
     android:id="@+id/linearLayout_main"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/appwidget_bg_focused"
-   
-
-  >
+    android:background="@drawable/appwidget_bg_focused" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -49,6 +46,7 @@
                 android:id="@+id/morseCodeEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/edittext_style"
                 android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.,?"
                 android:ems="10"
@@ -56,32 +54,30 @@
                 android:imeActionId="300"
                 android:imeOptions="actionDone"
                 android:maxLines="3"
-                android:textColor="@color/title_color"
                 android:overScrollMode="always"
                 android:scrollbarSize="5dp"
                 android:scrollbarStyle="insideInset"
                 android:scrollbarThumbVertical="@drawable/scrollbar"
-                android:scrollbars="vertical" 
-                 android:layout_marginBottom="20dp">
+                android:scrollbars="vertical"
+                android:textColor="@color/title_color" >
 
                 <requestFocus />
             </gbernat.flashlight.controls.MyEditText>
 
             <TextView
                 android:id="@+id/showMorseTextView"
-               
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
+                android:ellipsize="end"
                 android:fadeScrollbars="false"
                 android:maxLines="3"
-                 android:scrollbarSize="5dp"
                 android:overScrollMode="always"
+                android:scrollbarSize="5dp"
                 android:scrollbarStyle="insideInset"
+                android:scrollbarThumbVertical="@drawable/scrollbar"
                 android:scrollbars="vertical"
                 android:textColor="@color/Red"
-                android:scrollbarThumbVertical="@drawable/scrollbar"
-                android:ellipsize="end"
                 android:textSize="20dp" />
         </LinearLayout>
 

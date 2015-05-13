@@ -19,4 +19,13 @@
     <string name="label_bat_st">電池狀態:</string>
     <string name="label_go_to_app">&#160;應用&#160;</string>  
     <string name="label_busy_camera">你的相機忙 請關閉</string>
+    <string name="label_flash_time">閃光時間: </string>
+    <string name="dialog_title">靈敏度震動</string>
+    <string name="ok">行</string>
+    <string name="no">沒有</string>
+    <string name="percent">%</string>
+    <string name="initial_value_percent">45%</string>
+    <string name="shake_sensivity">sensivity_sk</string>
+    <string name="time_unit_seconds">s</string>
+    <string name="label_speed">速度</string>
 </resources>

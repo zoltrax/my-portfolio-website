@@ -19,4 +19,13 @@
     <string name="label_bat_st">Estado de la batería:</string>
     <string name="label_go_to_app">&#160;a aplicación&#160;</string>  
     <string name="label_busy_camera">Su cámara está ocupada. Por favor, apague.</string>
+    <string name="label_flash_time">tiempo de flash: </string>
+    <string name="dialog_title">sensibilidad sacudida</string>
+    <string name="ok">bueno</string>
+    <string name="no">no</string>
+    <string name="percent">%</string>
+    <string name="initial_value_percent">45%</string>
+    <string name="shake_sensivity">sensivity_sk</string>
+    <string name="time_unit_seconds">s</string>
+    <string name="label_speed">velocidad</string>
 </resources>

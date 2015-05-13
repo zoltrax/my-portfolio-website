@@ -7,7 +7,7 @@
     <string name="label_police">Polizei</string>
     <string name="label_strobe_screen">Strobe-Bildschirm</string>
     <string name="label_morse">Morsezeichen</string>
-    <string name="label_strobe_light">Strobe Fleisch</string>
+    <string name="label_strobe_light">Strobe Blitz</string>
     <string name="label_frequency">Frequenz</string>
     <string name="label_flashlight_screen">Taschenlampe - Bildschirm</string>
     <string name="label_sos">S.O.S.</string>
@@ -19,4 +19,13 @@
     <string name="label_bat_st">Batteriestatus:</string>
     <string name="label_go_to_app">&#160;Applikation&#160;</string>  
     <string name="label_busy_camera">Ihre Kamera ist besetzt. Bitte ausschalten Sie.</string>
+    <string name="label_flash_time">Flash-Zeit: </string>
+    <string name="dialog_title">shake Empfindlichkeit</string>
+    <string name="ok">ok</string>
+    <string name="no">nein</string>
+    <string name="percent">%</string>
+    <string name="initial_value_percent">45%</string>
+    <string name="shake_sensivity">sensivity_sk</string>
+    <string name="time_unit_seconds">s</string>
+    <string name="label_speed">Tempo</string>
 </resources>

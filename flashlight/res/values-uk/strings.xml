@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ліхтарик</string>
+    <string name="button_flashlight_on">вмикати</string>
+    <string name="button_flashlight_off">вимикати</string>
+    <string name="label_warning">застерігання</string>
+    <string name="label_police">поліція</string>
+    <string name="label_strobe_screen">екран стробоскоп</string>
+    <string name="label_morse">Азбука Морзе</string>
+    <string name="label_strobe_light">стробоскоп</string>
+    <string name="label_frequency">частота</string>
+    <string name="label_flashlight_screen">ліхтарик - екран</string>
+    <string name="label_sos">S.O.S.</string>
+    <string name="label_shake">трясти</string>
+    <string name="label_enter_mes">Введіть повідомлення:</string>
+    <string name="label_transl_mes">перекласти повідомлення</string>
+    <string name="label_start_lights">почати вогні</string>
+    <string name="label_stop_lights">стоп-сигнали</string>
+    <string name="label_bat_st">акумулятор:</string>
+    <string name="label_go_to_app">&#160;перейти до додатка&#160;</string>  
+    <string name="label_busy_camera">Ваша камера зайнята, можливо, інший додаток або віджет використовує його. Будь ласка, вимкніть.</string>
+    <string name="label_flash_time">час: </string>
+    <string name="dialog_title">чутливість струшування</string>
+    <string name="ok">добре</string>
+    <string name="no">НЕ</string>
+    <string name="percent">%</string>
+    <string name="initial_value_percent">45%</string>
+    <string name="shake_sensivity">sensivity_sk</string>
+    <string name="time_unit_seconds">s</string>
+    <string name="label_speed">швидкість</string>
+</resources>

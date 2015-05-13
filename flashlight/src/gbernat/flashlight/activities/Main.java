@@ -12,9 +12,13 @@ import gbernat.flashlight.R.id;
 import gbernat.flashlight.R.layout;
 import gbernat.flashlight.R.string;
 import gbernat.flashlight.ShakeDetector.OnShakeListener;
+import gbernat.flashlight.widget.AppWidgetProvider2;
+import gbernat.flashlight.widget.FlashlightWidgetReceiver;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -42,6 +46,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,10 +56,10 @@ public class Main extends Activity implements OnClickListener {
 
 	ImageButton onOff;
 	ImageButton setting;
-	
+
 	PowerManager powerManager;
 	WakeLock wakeLock;
-	     
+
 	Button btn1;
 	Button btn2;
 	Button btn3;
@@ -65,7 +70,7 @@ public class Main extends Activity implements OnClickListener {
 	Calendar now = Calendar.getInstance();
 	Calendar last = Calendar.getInstance();
 
-	private static Camera camera;
+	// private static Camera camera;
 	private static Parameters parameters;
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
@@ -76,12 +81,12 @@ public class Main extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		
-		//getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+		// getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		powerManager = (PowerManager) getSystemService(POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-		        "MyWakelockTag");
-		
+				"MyWakelockTag");
+
 		wakeLock.acquire();
 
 		onOff = (ImageButton) findViewById(R.id.toggleButton1);
@@ -113,6 +118,17 @@ public class Main extends Activity implements OnClickListener {
 			@Override
 			public void onShake(int count) {
 				handleShakeEvent(count);
+				Log.v("count111",""+count);
+				Log.v("count",""+count%2);
+				if(onOff.getTag().equals("on")){
+					Log.v("pyk","pyk");
+					FlashlightWidgetReceiver.setOnOff(true);
+				} else {
+					Log.v("cyk","cyk");
+					FlashlightWidgetReceiver.setOnOff(false);
+				}
+
+				sendUpdateIntent(getApplicationContext());
 			}
 		});
 
@@ -120,11 +136,13 @@ public class Main extends Activity implements OnClickListener {
 
 	protected void handleShakeEvent(int count) {
 
-		if (camera != null) {
+		if (Utils.cam != null) {
 			setFlashOff();
+			onOff.setTag("off");
 			return;
 		} else {
 			setFlashOn();
+			onOff.setTag("on");
 		}
 	}
 
@@ -133,16 +151,34 @@ public class Main extends Activity implements OnClickListener {
 
 		if (v == onOff) {
 
-			if (camera == null) {
+			if (Utils.cam == null) {
 				setFlashOn();
+				// Intent intent = new Intent(this,AppWidgetProvider2.class);
+				// intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+				// // Use an array and EXTRA_APPWIDGET_IDS instead of
+				// AppWidgetManager.EXTRA_APPWIDGET_ID,
+				// // since it seems the onUpdate() is only fired on that:
+				// //int[] ids = {21};
+				// int ids[] =
+				// AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new
+				// ComponentName(getApplication(), AppWidgetProvider2.class));
+				// for(int i=0;i<ids.length;i++){
+				// intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids[i]);
+				// sendBroadcast(intent);
+				// }
+				FlashlightWidgetReceiver.setOnOff(true);
+				sendUpdateIntent(getApplicationContext());
 			} else {
 				setFlashOff();
+				FlashlightWidgetReceiver.setOnOff(false);
+				sendUpdateIntent(getApplicationContext());
+
 			}
 
 		} else if (v == btn1) {
 
 			Intent strobeLight = new Intent(this, StrobeLight.class);
-			if (camera != null) {
+			if (Utils.cam != null) {
 				setFlashOff();
 			}
 			startActivity(strobeLight);
@@ -155,7 +191,7 @@ public class Main extends Activity implements OnClickListener {
 		} else if (v == btn3) {
 
 			Intent morse = new Intent(this, MorseCode.class);
-			if (camera != null) {
+			if (Utils.cam != null) {
 				setFlashOff();
 			}
 			startActivity(morse);
@@ -174,8 +210,7 @@ public class Main extends Activity implements OnClickListener {
 			Intent flashScreen = new Intent(this, ScreenFlashlight.class);
 			startActivity(flashScreen);
 		} else if (v == setting) {
-			
-		
+
 			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View layout = inflater.inflate(R.layout.alert_dialog_settings,
 					(ViewGroup) findViewById(R.id.sensivityLayout));
@@ -207,24 +242,26 @@ public class Main extends Activity implements OnClickListener {
 
 				@Override
 				public void onClick(View v) {
-//					WindowManager.LayoutParams params = getWindow().getAttributes();
-//					params.screenBrightness = 1;
-//					getWindow().setAttributes(params);
+					// WindowManager.LayoutParams params =
+					// getWindow().getAttributes();
+					// params.screenBrightness = 1;
+					// getWindow().setAttributes(params);
 					// TODO Auto-generated method stub
 					setting.setImageResource(R.drawable.setting_icon);
 					alertDialog.dismiss();
 				}
 			});
-			
-			alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener(){
 
-				@Override
-				public void onDismiss(DialogInterface dialog) {
-					// TODO Auto-generated method stub
-					setting.setImageResource(R.drawable.setting_icon);
-				}
-				
-			});
+			alertDialog
+					.setOnDismissListener(new DialogInterface.OnDismissListener() {
+
+						@Override
+						public void onDismiss(DialogInterface dialog) {
+							// TODO Auto-generated method stubf
+							setting.setImageResource(R.drawable.setting_icon);
+						}
+
+					});
 
 			alertDialog.setOnKeyListener(new Dialog.OnKeyListener() {
 
@@ -289,13 +326,19 @@ public class Main extends Activity implements OnClickListener {
 
 	}
 
+	public static void sendUpdateIntent(Context context) {
+		Intent i = new Intent(context, FlashlightWidgetReceiver.class);
+		i.setAction(FlashlightWidgetReceiver.update);
+		context.sendBroadcast(i);
+	}
+
 	private void setFlashOn() {
 		try {
-			if (camera == null)
-				camera = Camera.open();
-			parameters = camera.getParameters();
+			if (Utils.cam == null)
+				Utils.cam = Utils.cam.open();
+			parameters = Utils.cam.getParameters();
 			parameters.setFlashMode(Parameters.FLASH_MODE_TORCH);
-			camera.setParameters(parameters);
+			Utils.cam.setParameters(parameters);
 			onOff.setImageResource(R.drawable.power_on);
 		} catch (Exception e) {
 			showDialog();
@@ -304,14 +347,14 @@ public class Main extends Activity implements OnClickListener {
 
 	private void setFlashOff() {
 		try {
-			if (camera != null) {
+			if (Utils.cam != null) {
 				onOff.setImageResource(R.drawable.power_off);
-				parameters = camera.getParameters();
+				parameters = Utils.cam.getParameters();
 				parameters.setFlashMode(Parameters.FLASH_MODE_OFF);
-				camera.setParameters(parameters);
-				camera.stopPreview();
-				camera.release();
-				camera = null;
+				Utils.cam.setParameters(parameters);
+				Utils.cam.stopPreview();
+				Utils.cam.release();
+				Utils.cam = null;
 			}
 		} catch (Exception e) {
 			showDialog();
@@ -330,7 +373,7 @@ public class Main extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		mHolder = holder;
 		try {
-			camera.setPreviewDisplay(mHolder);
+			Utils.cam.setPreviewDisplay(mHolder);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -340,18 +383,18 @@ public class Main extends Activity implements OnClickListener {
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
-		camera.stopPreview();
+		Utils.cam.stopPreview();
 		mHolder = null;
 
 	}
 
 	@Override
-	public void onPause() {
-		super.onPause();
+	public void onStop() {
+		super.onStop();
+
 		mSensorManager.unregisterListener(mShakeDetector);
-		
+
 	}
-	
 
 	public void showDialog() {
 		AlertDialog alertDialog = new AlertDialog.Builder(Main.this).create();
@@ -373,6 +416,11 @@ public class Main extends Activity implements OnClickListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if (FlashlightWidgetReceiver.getOnOff()) {
+			onOff.setImageResource(R.drawable.power_on);
+		} else {
+			onOff.setImageResource(R.drawable.power_off);
+		}
 		mSensorManager.registerListener(mShakeDetector, mAccelerometer,
 				SensorManager.SENSOR_DELAY_UI);
 	}

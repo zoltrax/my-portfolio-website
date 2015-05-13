@@ -18,5 +18,15 @@
     <string name="label_stop_lights">arrêter l\'éclairage</string>
     <string name="label_bat_st">état de la batterie:</string>
     <string name="label_go_to_app">&#160;application&#160;</string>  
-    <string name="label_busy_camera">Votre appareil photo est occupé. Veuillez désactiver .</string>
+    <string name="label_busy_camera">Votre appareil photo est occupé. Veuillez désactiver.</string>
+    <string name="label_flash_time">durée de flash: </string>
+    <string name="dialog_title">tremblement de sensibilité</string>
+    <string name="ok">bien</string>
+    <string name="no">aucun</string>
+    <string name="percent">%</string>
+    <string name="initial_value_percent">45%</string>
+    <string name="shake_sensivity">sensivity_sk</string>
+    <string name="time_unit_seconds">s</string>
+    <string name="label_speed">vitesse</string>
 </resources>
+

@@ -20,7 +20,7 @@
     <string name="label_go_to_app">&#160;go to app&#160;</string>  
     <string name="label_busy_camera">Your camera is busy, perhaps another App or Widget uses it. Please turn off.</string>
     <string name="label_flash_time">flash time: </string>
-    <string name="dialog_title">shake sensivity</string>
+    <string name="dialog_title">shake sensitivity</string>
     <string name="ok">ok</string>
     <string name="no">no</string>
     <string name="percent">%</string>
