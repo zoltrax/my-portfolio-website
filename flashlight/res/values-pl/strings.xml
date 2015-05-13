@@ -27,4 +27,5 @@
     <string name="initial_value_percent">45%</string>
     <string name="shake_sensivity">sensivity_sk</string>
     <string name="time_unit_seconds">s</string>
+    <string name="label_speed">prędkość</string>
 </resources>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Torcha</string>
-    <string name="button_flashlight_on">vez</string>
-    <string name="button_flashlight_off">fora</string>
+    <string name="button_flashlight_on">ligar</string>
+    <string name="button_flashlight_off">desligar</string>
     <string name="label_warning">advertência</string>
     <string name="label_police">polícia</string>
     <string name="label_strobe_screen">strobe tela</string>
@@ -12,11 +12,20 @@
     <string name="label_flashlight_screen">torcha - tela</string>
     <string name="label_sos">S.O.S.</string>
     <string name="label_shake">agitá-lo</string>
-    <string name="label_enter_mes">Entre mensagem:</string>
+    <string name="label_enter_mes">Digite mensagem:</string>
     <string name="label_transl_mes">Traduzir mensagem</string>
     <string name="label_start_lights">iniciar luzes</string>
     <string name="label_stop_lights">pare de luzes</string>
     <string name="label_bat_st">Estado da bateria:</string>
     <string name="label_go_to_app">&#160;aplicação&#160;</string>  
     <string name="label_busy_camera">Sua câmera está ocupado. Por favor, desligue.</string>
+    <string name="label_flash_time">tempo de flash: </string>
+    <string name="dialog_title">Agitação sensivity</string>
+    <string name="ok">ok</string>
+    <string name="no">não</string>
+    <string name="percent">%</string>
+    <string name="initial_value_percent">45%</string>
+    <string name="shake_sensivity">sensivity_sk</string>
+    <string name="time_unit_seconds">s</string>
+    <string name="label_speed">velocidade</string>
 </resources>

@@ -61,7 +61,7 @@ import android.widget.ViewSwitcher.ViewFactory;
 public class MorseCode extends Activity {
 
 	private Handler mHandler = new Handler();
-	private static Camera cam;
+	//private static Camera cam;
 	private static Parameters params;
 	private boolean isFlashOn = false;
 	private boolean mActive = false;
@@ -199,8 +199,8 @@ public class MorseCode extends Activity {
 		};
 
 		try {
-			cam = Camera.open();
-			params = cam.getParameters();
+			Utils.cam = Camera.open();
+			params = Utils.cam.getParameters();
 		} catch (Exception e) {
 			showDialog();
 		}
@@ -213,7 +213,7 @@ public class MorseCode extends Activity {
 		int speed = 1;
 
 		public void run() {
-			isRunning = true;
+			Utils.isRunning = true;
 			speed = currentIndex + 1;
 
 			if (count == 0) {
@@ -235,7 +235,7 @@ public class MorseCode extends Activity {
 				fadeIn.setInterpolator(new AccelerateInterpolator());
 				fadeIn.setFillAfter(true);
 				fadeIn.setDuration(300);
-				isRunning = false;
+				Utils.isRunning = false;
 				btnStart.startAnimation(fadeIn);
 				btnSos.startAnimation(fadeIn);
 				count = 0;
@@ -269,8 +269,8 @@ public class MorseCode extends Activity {
 						// Log.v("lenght", "4 " + lenght);
 						delay = 2100;
 						params.setFlashMode(Parameters.FLASH_MODE_OFF);
-						cam.setParameters(params);
-						cam.stopPreview();
+						Utils.cam.setParameters(params);
+						Utils.cam.stopPreview();
 						Log.v("is there something more", "no no no " + delay);
 					}
 					mHandler.postDelayed(this, (delay / speed));
@@ -295,8 +295,8 @@ public class MorseCode extends Activity {
 	public void flashLightOn() {
 
 		params.setFlashMode(Parameters.FLASH_MODE_TORCH);
-		cam.setParameters(params);
-		cam.startPreview();
+		Utils.cam.setParameters(params);
+		Utils.cam.startPreview();
 		isFlashOn = true;
 	}
 
@@ -304,10 +304,10 @@ public class MorseCode extends Activity {
 	 * This method turn off the LED camera flash light
 	 */
 	public void flashLightOff() {
-		params = cam.getParameters();
+		params = Utils.cam.getParameters();
 		params.setFlashMode(Parameters.FLASH_MODE_OFF);
-		cam.setParameters(params);
-		cam.stopPreview();
+		Utils.cam.setParameters(params);
+		Utils.cam.stopPreview();
 		isFlashOn = false;
 	}
 
@@ -365,12 +365,12 @@ public class MorseCode extends Activity {
 		fadeIn.setInterpolator(new AccelerateInterpolator());
 		fadeIn.setFillAfter(true);
 		fadeIn.setDuration(300);
-		isRunning = false;
+		Utils.isRunning = false;
 		btnStart.startAnimation(fadeIn);
 		btnSos.startAnimation(fadeIn);
 
 		params.setFlashMode(Parameters.FLASH_MODE_OFF);
-		cam.setParameters(params);
+		Utils.cam.setParameters(params);
 
 	}
 
@@ -597,14 +597,14 @@ public class MorseCode extends Activity {
 	@Override
 	public void onBackPressed() {
 
-		if (cam != null) {
+		if (Utils.cam != null) {
 			params.setFlashMode(Parameters.FLASH_MODE_OFF);
-			cam.setParameters(params);
-
+			Utils.cam.setParameters(params);
+			Utils.isRunning = false;
 			mHandler.removeCallbacks(mRunnable);
-			cam.stopPreview();
-			cam.release();
-			cam = null;
+			Utils.cam.stopPreview();
+			Utils.cam.release();
+			Utils.cam = null;
 		}
 		finish();
 
@@ -640,7 +640,7 @@ public class MorseCode extends Activity {
 		/**
 		 * Release Camera
 		 */
-
+		Utils.isRunning = false;
 	}
 
 	public class Translate extends AsyncTask<Void, Void, String> {

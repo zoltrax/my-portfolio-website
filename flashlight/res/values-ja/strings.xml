@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">懐中電灯</string>
+    <string name="button_flashlight_on">回す</string>
+    <string name="button_flashlight_off">留める</string>
+    <string name="label_warning">警告</string>
+    <string name="label_police">警察</string>
+    <string name="label_strobe_screen">ストロボ画面</string>
+    <string name="label_morse">モールス信号</string>
+    <string name="label_strobe_light">ストロボ</string>
+    <string name="label_frequency">周波数</string>
+    <string name="label_flashlight_screen">懐中電灯 - 画面</string>
+    <string name="label_sos">S.O.S.</string>
+    <string name="label_shake">振る</string>
+    <string name="label_enter_mes">メッセージを入力してください：</string>
+    <string name="label_transl_mes">メッセージを翻訳</string>
+    <string name="label_start_lights">スタート</string>
+    <string name="label_stop_lights">停止</string>
+    <string name="label_bat_st">バッテリー</string>
+    <string name="label_go_to_app">&#160;アプリに行きます&#160;</string>  
+    <string name="label_busy_camera">お使いのカメラは、おそらく他のアプリ使用中であるか、ウィジェットはそれを使用します。オフにしてください。</string>
+    <string name="label_flash_time">フラッシュ時間：</string>
+    <string name="dialog_title">感度振とう</string>
+    <string name="ok">はい</string>
+    <string name="no">いいえ</string>
+    <string name="percent">%</string>
+    <string name="initial_value_percent">45%</string>
+    <string name="shake_sensivity">sensivity_sk</string>
+    <string name="time_unit_seconds">s</string>
+    <string name="label_speed">スピード</string>
+</resources>
