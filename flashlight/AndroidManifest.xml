@@ -22,7 +22,7 @@
         <activity
             android:name="gbernat.flashlight.activities.Main"
             android:label="@string/app_name"
-            android:launchMode="singleTop"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,17 +34,21 @@
             android:name="gbernat.flashlight.activities.StrobeLight"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+              android:multiprocess="false"
+                android:launchMode="singleInstance"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name="gbernat.flashlight.activities.StrobeScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
+            android:multiprocess="false"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name="gbernat.flashlight.activities.ScreenFlashlight"
             android:label="@string/app_name"
+              android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
@@ -63,11 +67,13 @@
         <activity
             android:name="gbernat.flashlight.activities.MorseCode"
             android:label="@string/app_name"
+            android:multiprocess="false"
             android:screenOrientation="portrait"
+               android:launchMode="singleInstance"
             android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
 
-        <receiver android:name="gbernat.flashlight.widget.AppWidgetProvider" >
+        <receiver android:name="gbernat.widget.flashlight.widget.AppWidgetProvider" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="gbernat.flashlight.8BITCLOCK_WIDGET_UPDATE" >
@@ -78,7 +84,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget" />
         </receiver>
-        <receiver android:name="gbernat.flashlight.widget.AppWidgetProvider2" >
+        <receiver android:name="gbernat.widget.flashlight.widget.AppWidgetProvider2" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="gbernat.flashlight.8BITCLOCK_WIDGET_UPDATE" >
@@ -89,7 +95,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget2" />
         </receiver>
-        <receiver android:name="gbernat.flashlight.widget.FlashlightWidgetReceiver" >
+        <receiver android:name="gbernat.widget.flashlight.widget.FlashlightWidgetReceiver" >
             <intent-filter>
                 <action android:name="COM_FLASHLIGHT" >
                 </action>

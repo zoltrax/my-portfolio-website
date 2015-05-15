@@ -12,12 +12,14 @@ import gbernat.flashlight.R.layout;
 import gbernat.flashlight.R.string;
 import gbernat.flashlight.controls.MyEditText;
 import gbernat.flashlight.controls.VerticalScrollView;
+import gbernat.widget.flashlight.widget.FlashlightWidgetReceiver;
 import android.R.anim;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -61,7 +63,7 @@ import android.widget.ViewSwitcher.ViewFactory;
 public class MorseCode extends Activity {
 
 	private Handler mHandler = new Handler();
-	//private static Camera cam;
+	// private static Camera cam;
 	private static Parameters params;
 	private boolean isFlashOn = false;
 	private boolean mActive = false;
@@ -225,6 +227,8 @@ public class MorseCode extends Activity {
 				fadeOut.setDuration(1000);
 				btnStart.startAnimation(fadeOut);
 				btnSos.startAnimation(fadeOut);
+				FlashlightWidgetReceiver.setOnOff(true);
+				sendUpdateIntent(getApplicationContext());
 				count++;
 			}
 			if (lenght < 1) {
@@ -238,6 +242,8 @@ public class MorseCode extends Activity {
 				Utils.isRunning = false;
 				btnStart.startAnimation(fadeIn);
 				btnSos.startAnimation(fadeIn);
+				FlashlightWidgetReceiver.setOnOff(false);
+				sendUpdateIntent(getApplicationContext());
 				count = 0;
 				return;
 			}
@@ -293,6 +299,15 @@ public class MorseCode extends Activity {
 	private SurfaceHolder mHolder;
 
 	public void flashLightOn() {
+		try {
+			if (Utils.cam == null) {
+				Log.v("null", "null");
+				Utils.cam = Camera.open();
+				// params = Utils.cam.getParameters();
+			}
+		} catch (Exception e) {
+			showDialog();
+		}
 
 		params.setFlashMode(Parameters.FLASH_MODE_TORCH);
 		Utils.cam.setParameters(params);
@@ -304,11 +319,26 @@ public class MorseCode extends Activity {
 	 * This method turn off the LED camera flash light
 	 */
 	public void flashLightOff() {
+		try {
+			if (Utils.cam == null) {
+				Log.v("null", "null");
+				Utils.cam = Camera.open();
+				// params = Utils.cam.getParameters();
+			}
+		} catch (Exception e) {
+			showDialog();
+		}
 		params = Utils.cam.getParameters();
 		params.setFlashMode(Parameters.FLASH_MODE_OFF);
 		Utils.cam.setParameters(params);
 		Utils.cam.stopPreview();
 		isFlashOn = false;
+	}
+
+	public static void sendUpdateIntent(Context context) {
+		Intent i = new Intent(context, FlashlightWidgetReceiver.class);
+		i.setAction(FlashlightWidgetReceiver.update);
+		context.sendBroadcast(i);
 	}
 
 	public void startLights(View v) {
@@ -605,7 +635,13 @@ public class MorseCode extends Activity {
 			Utils.cam.stopPreview();
 			Utils.cam.release();
 			Utils.cam = null;
+
 		}
+		FlashlightWidgetReceiver.setOnOff(false);
+		sendUpdateIntent(getApplicationContext());
+		Intent returnBtn = new Intent(getApplicationContext(), Main.class);
+		returnBtn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(returnBtn);
 		finish();
 
 	}
@@ -635,12 +671,21 @@ public class MorseCode extends Activity {
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+
+		Utils.pausedActiv = 3;
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
 		/**
 		 * Release Camera
 		 */
-		Utils.isRunning = false;
+		// Log.v("morsePAUSE","MORSE");
+		// Utils.isRunning = false;
+		// Utils.pausedActiv = 3;
 	}
 
 	public class Translate extends AsyncTask<Void, Void, String> {
