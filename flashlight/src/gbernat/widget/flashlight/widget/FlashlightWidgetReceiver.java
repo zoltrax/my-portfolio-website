@@ -1,4 +1,4 @@
-package gbernat.flashlight.widget;
+package gbernat.widget.flashlight.widget;
 
 import java.util.Calendar;
 import java.util.List;
@@ -30,21 +30,32 @@ import android.widget.Toast;
 public class FlashlightWidgetReceiver extends BroadcastReceiver {
 	private static boolean isLightOn = false;
 
-	public static String update = "gbernat.flashlight.widget.intent.action.UPDATE";
+	public static String update = "gbernat.widget.flashlight.widget.intent.action.UPDATE";
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 
+		ActivityManager activityManager = (ActivityManager) context
+				.getSystemService(context.ACTIVITY_SERVICE);
+		List<RunningAppProcessInfo> procInfos = activityManager
+				.getRunningAppProcesses();
+		for (int i = 0; i < procInfos.size(); i++) {
+			if (procInfos.get(i).processName.equals("gbernat.flashlight")) {
+
+			}
+		}
+
 		if (Utils.isRunning) {
 			updateWidgetPictureAndButtonListener3(context);
 		} else {
-			if (intent.getAction().equals(
-					"gbernat.flashlight.widget.intent.action.CHANGE_PICTURE")) {
+			if (intent
+					.getAction()
+					.equals("gbernat.widget.flashlight.widget.intent.action.CHANGE_PICTURE")) {
 				updateWidgetPictureAndButtonListener(context);
 			}
 
 			if (intent.getAction().equals(
-					"gbernat.flashlight.widget.intent.action.UPDATE")) {
+					"gbernat.widget.flashlight.widget.intent.action.UPDATE")) {
 				updateWidgetPictureAndButtonListener2(context);
 			}
 		}
@@ -68,11 +79,15 @@ public class FlashlightWidgetReceiver extends BroadcastReceiver {
 					R.drawable.power_off);
 
 		} else {
-			Utils.cam = Camera.open();
-			remoteViews.setImageViewResource(R.id.imageButton22,
-					R.drawable.power_on);
-			remoteViews2.setImageViewResource(R.id.imageButton2,
-					R.drawable.power_on);
+			try {
+				Utils.cam = Camera.open();
+				remoteViews.setImageViewResource(R.id.imageButton22,
+						R.drawable.power_on);
+				remoteViews2.setImageViewResource(R.id.imageButton2,
+						R.drawable.power_on);
+			} catch (Exception e) {
+
+			}
 
 			if (Utils.cam == null) {
 				Toast.makeText(context, "no camera", Toast.LENGTH_SHORT).show();
@@ -130,7 +145,7 @@ public class FlashlightWidgetReceiver extends BroadcastReceiver {
 				R.layout.ofappwidgetlay2);
 		RemoteViews remoteViews2 = new RemoteViews(context.getPackageName(),
 				R.layout.ofappwidgetlay);
-		
+
 		remoteViews.setImageViewResource(R.id.imageButton22,
 				android.R.drawable.presence_busy);
 		remoteViews2.setImageViewResource(R.id.imageButton2,

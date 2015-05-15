@@ -12,8 +12,8 @@ import gbernat.flashlight.R.id;
 import gbernat.flashlight.R.layout;
 import gbernat.flashlight.R.string;
 import gbernat.flashlight.ShakeDetector.OnShakeListener;
-import gbernat.flashlight.widget.AppWidgetProvider2;
-import gbernat.flashlight.widget.FlashlightWidgetReceiver;
+import gbernat.widget.flashlight.widget.AppWidgetProvider2;
+import gbernat.widget.flashlight.widget.FlashlightWidgetReceiver;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -118,19 +118,19 @@ public class Main extends Activity implements OnClickListener {
 			@Override
 			public void onShake(int count) {
 				handleShakeEvent(count);
-				Log.v("count111",""+count);
-				Log.v("count",""+count%2);
-				if(onOff.getTag().equals("on")){
-					Log.v("pyk","pyk");
+
+				if (onOff.getTag().equals("on")) {
+
 					FlashlightWidgetReceiver.setOnOff(true);
 				} else {
-					Log.v("cyk","cyk");
+
 					FlashlightWidgetReceiver.setOnOff(false);
 				}
 
 				sendUpdateIntent(getApplicationContext());
 			}
 		});
+		Utils.pausedActiv = 0;
 
 	}
 
@@ -180,7 +180,22 @@ public class Main extends Activity implements OnClickListener {
 			Intent strobeLight = new Intent(this, StrobeLight.class);
 			if (Utils.cam != null) {
 				setFlashOff();
+				try {
+
+					Parameters params = Utils.cam.getParameters();
+					params = Utils.cam.getParameters();
+					params.setFlashMode(Parameters.FLASH_MODE_OFF);
+					Utils.cam.setParameters(params);
+					Utils.cam.stopPreview();
+
+				} catch (Exception e) {
+
+				}
+
 			}
+			setFlashOff();
+			FlashlightWidgetReceiver.setOnOff(false);
+			sendUpdateIntent(getApplicationContext());
 			startActivity(strobeLight);
 
 		} else if (v == btn2) {
@@ -193,7 +208,21 @@ public class Main extends Activity implements OnClickListener {
 			Intent morse = new Intent(this, MorseCode.class);
 			if (Utils.cam != null) {
 				setFlashOff();
+				try {
+
+					Parameters params = Utils.cam.getParameters();
+					params = Utils.cam.getParameters();
+					params.setFlashMode(Parameters.FLASH_MODE_OFF);
+					Utils.cam.setParameters(params);
+					Utils.cam.stopPreview();
+
+				} catch (Exception e) {
+
+				}
 			}
+			setFlashOff();
+			FlashlightWidgetReceiver.setOnOff(false);
+			sendUpdateIntent(getApplicationContext());
 			startActivity(morse);
 
 		} else if (v == btn4) {
@@ -391,7 +420,7 @@ public class Main extends Activity implements OnClickListener {
 	@Override
 	public void onStop() {
 		super.onStop();
-
+		Utils.pausedActiv = 0;
 		mSensorManager.unregisterListener(mShakeDetector);
 
 	}
@@ -421,6 +450,7 @@ public class Main extends Activity implements OnClickListener {
 		} else {
 			onOff.setImageResource(R.drawable.power_off);
 		}
+		Utils.pausedActiv = 0;
 		mSensorManager.registerListener(mShakeDetector, mAccelerometer,
 				SensorManager.SENSOR_DELAY_UI);
 	}

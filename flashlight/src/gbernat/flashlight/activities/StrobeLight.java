@@ -6,9 +6,9 @@ import gbernat.flashlight.R;
 import gbernat.flashlight.R.id;
 import gbernat.flashlight.R.layout;
 import gbernat.flashlight.R.string;
-import gbernat.flashlight.widget.AppWidgetProvider2;
-import gbernat.flashlight.widget.FlashlightWidgetReceiver;
 import gbernat.flashlight.Utils;
+import gbernat.widget.flashlight.widget.AppWidgetProvider2;
+import gbernat.widget.flashlight.widget.FlashlightWidgetReceiver;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -38,7 +38,7 @@ import android.widget.ToggleButton;
 public class StrobeLight extends Activity implements OnClickListener {
 
 	Handler mHandler = new Handler();
-	//private static Camera cam;
+	// private static Camera cam;
 	private static Parameters params;
 	private boolean isFlashOn = false;
 	private boolean mActive = false;
@@ -46,20 +46,19 @@ public class StrobeLight extends Activity implements OnClickListener {
 	private SeekBar frequencyBar;
 	int progressChanged = 100;
 	private TextView timeTextView;
-	
+
 	PowerManager powerManager;
 	WakeLock wakeLock;
 
 	ToggleButton onOff;
 	public static String reset = "gbernat.flashlight.widget.intent.action.RESET";
-	
 
 	private final Runnable mRunnable = new Runnable() {
 
 		public void run() {
 			if (mActive) {
 				if (mSwap) {
-					
+
 					flashLightOn();
 					mHandler.postDelayed(mRunnable, (progressChanged * 100));
 					mSwap = false;
@@ -74,26 +73,23 @@ public class StrobeLight extends Activity implements OnClickListener {
 		}
 	};
 	private SurfaceHolder mHolder;
-	
-	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.strobe_light);
-		
+
 		powerManager = (PowerManager) getSystemService(POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-		        "MyWakelockTag");
-		
+				"MyWakelockTag");
+
 		wakeLock.acquire();
-		
-		
 
 		try {
-			if(Utils.cam==null){
-			Utils.cam = Camera.open();
-			params = Utils.cam.getParameters();
+			if (Utils.cam == null) {
+				Log.v("null", "null");
+				Utils.cam = Camera.open();
+				params = Utils.cam.getParameters();
 			}
 		} catch (Exception e) {
 			showDialog();
@@ -113,7 +109,8 @@ public class StrobeLight extends Activity implements OnClickListener {
 					boolean fromUser) {
 				progressChanged = 100 - progress;
 				timeTextView.setText(getString(R.string.label_flash_time) + " "
-						+ (progressChanged * 100 / 1000F) + getString(R.string.time_unit_seconds));
+						+ (progressChanged * 100 / 1000F)
+						+ getString(R.string.time_unit_seconds));
 			}
 
 			public void onStartTrackingTouch(SeekBar seekBar) {
@@ -140,49 +137,71 @@ public class StrobeLight extends Activity implements OnClickListener {
 	}
 
 	public void flashLightOn() {
-		try{
+
+		try {
+			if (Utils.cam == null) {
+
+				Utils.cam = Camera.open();
+				params = Utils.cam.getParameters();
+			}
+		} catch (Exception e) {
+			showDialog();
+		}
+		// try{
+		params = Utils.cam.getParameters();
 		params.setFlashMode(Parameters.FLASH_MODE_TORCH);
 		Utils.cam.setParameters(params);
 		Utils.cam.startPreview();
 		isFlashOn = true;
-		}catch(Exception e){
-			
-		}
+		// }catch(Exception e){
+
+		// }
 	}
-//	IntentFilter filter = new IntentFilter(reset);
-//	BroadcastReceiver receiver = new BroadcastReceiver() {
-//	    @Override
-//	    public void onReceive(Context context, Intent intent) {         
-//	       // DO YOUR STUFF
-//	    	Log.v("strobe","receive");
-//	    }
-//	};
-	
-	
+
+	// IntentFilter filter = new IntentFilter(reset);
+	// BroadcastReceiver receiver = new BroadcastReceiver() {
+	// @Override
+	// public void onReceive(Context context, Intent intent) {
+	// // DO YOUR STUFF
+	// Log.v("strobe","receive");
+	// }
+	// };
 
 	/*
 	 * This method turn off the LED camera flash light
 	 */
 	public void flashLightOff() {
-		try{
+		// try{
+		try {
+			if (Utils.cam == null) {
+
+				Utils.cam = Camera.open();
+				params = Utils.cam.getParameters();
+			}
+		} catch (Exception e) {
+			showDialog();
+		}
+
 		params = Utils.cam.getParameters();
 		params.setFlashMode(Parameters.FLASH_MODE_OFF);
 		Utils.cam.setParameters(params);
 		Utils.cam.stopPreview();
 		isFlashOn = false;
-		
-		}catch(Exception e){
-			
-		}
+
+		// }catch(Exception e){
+
+		// }
 	}
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
+
 		// TODO Auto-generated method stub
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
+
 		mHolder = holder;
 		try {
 			Utils.cam.setPreviewDisplay(mHolder);
@@ -195,6 +214,7 @@ public class StrobeLight extends Activity implements OnClickListener {
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		// TODO Auto-generated method stub
+
 		Utils.cam.stopPreview();
 		mHolder = null;
 
@@ -203,13 +223,24 @@ public class StrobeLight extends Activity implements OnClickListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		//Utils.isRunning = false;
+		Utils.pausedActiv = 2;
+		// Utils.isRunning = false;
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+		try {
+			if (Utils.cam == null) {
+
+				Utils.cam = Camera.open();
+				params = Utils.cam.getParameters();
+			}
+		} catch (Exception e) {
+			showDialog();
+		}
+		Utils.pausedActiv = 2;
+
 	}
 
 	@Override
@@ -223,23 +254,26 @@ public class StrobeLight extends Activity implements OnClickListener {
 			Utils.cam.release();
 			Utils.cam = null;
 		}
+		Intent returnBtn = new Intent(getApplicationContext(), Main.class);
+		returnBtn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(returnBtn);
 		Utils.isRunning = false;
 		finish();
 	}
-	
-//	public static void sendUpdateIntent(Context context) 
-//	{
-//	    Intent i = new Intent(context, AppWidgetProvider2.class);
-//	    i.setAction(AppWidgetProvider2.block);
-//	    context.sendBroadcast(i);
-//	}
-//	
-//	public static void sendUpdateIntent2(Context context) 
-//	{
-//	    Intent i = new Intent(context, AppWidgetProvider2.class);
-//	    i.setAction(AppWidgetProvider2.unblock);
-//	    context.sendBroadcast(i);
-//	}
+
+	// public static void sendUpdateIntent(Context context)
+	// {
+	// Intent i = new Intent(context, AppWidgetProvider2.class);
+	// i.setAction(AppWidgetProvider2.block);
+	// context.sendBroadcast(i);
+	// }
+	//
+	// public static void sendUpdateIntent2(Context context)
+	// {
+	// Intent i = new Intent(context, AppWidgetProvider2.class);
+	// i.setAction(AppWidgetProvider2.unblock);
+	// context.sendBroadcast(i);
+	// }
 
 	@Override
 	public void onClick(View v) {
@@ -247,19 +281,19 @@ public class StrobeLight extends Activity implements OnClickListener {
 		if (v == onOff) {
 			if (onOff.isChecked()) {
 				startStrobe();
-				//sendUpdateIntent(getApplicationContext());
+				// sendUpdateIntent(getApplicationContext());
 			} else {
-				try{
-				params.setFlashMode(Parameters.FLASH_MODE_OFF);
-				Utils.cam.setParameters(params);
-				Utils.cam.startPreview();
-				mActive = false;
-				mHandler.removeCallbacks(mRunnable);
-				Utils.isRunning = false;
-				}catch(Exception e){
-					
+				try {
+					params.setFlashMode(Parameters.FLASH_MODE_OFF);
+					Utils.cam.setParameters(params);
+					Utils.cam.startPreview();
+					mActive = false;
+					mHandler.removeCallbacks(mRunnable);
+					Utils.isRunning = false;
+				} catch (Exception e) {
+
 				}
-				//sendUpdateIntent2(getApplicationContext());
+				// sendUpdateIntent2(getApplicationContext());
 			}
 
 		}
