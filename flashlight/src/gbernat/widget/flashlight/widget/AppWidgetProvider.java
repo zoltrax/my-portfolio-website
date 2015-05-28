@@ -32,6 +32,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
@@ -55,26 +56,8 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 			receiver.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
 					0, receiver, 0);
-			// TODO: przekierowywac do odpowiedniej klasy Main StrobeLight
-			// MorseCode or FlashlightActivity
-			Intent intent2;
 
-			if (Utils.pausedActiv == null) {
-				intent2 = new Intent(context, Main.class);
-
-			} else if (Utils.pausedActiv == 1) {
-
-				intent2 = new Intent(context, ScreenFlashlight.class);
-			} else if (Utils.pausedActiv == 2) {
-
-				intent2 = new Intent(context, StrobeLight.class);
-			} else if (Utils.pausedActiv == 3) {
-
-				intent2 = new Intent(context, MorseCode.class);
-			} else {
-
-				intent2 = new Intent(context, Main.class);
-			}
+			Intent intent2 = new Intent(context, Main.class);
 
 			intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -99,6 +82,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
+	
 		if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
 
 			ComponentName thisAppWidget = new ComponentName(
@@ -130,6 +114,16 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 			RemoteViews views = new RemoteViews(context.getPackageName(),
 					R.layout.ofappwidgetlay);
 			views.setOnClickPendingIntent(R.id.buttonGoToApp, pendingIntent2);
+			
+			Intent receiver = new Intent(context,
+					FlashlightWidgetReceiver.class);
+
+			receiver.setAction("gbernat.widget.flashlight.widget.intent.action.CHANGE_PICTURE");
+
+			//receiver.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
+			PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+					0, receiver, 0);
+			views.setOnClickPendingIntent(R.id.imageButton2, pendingIntent);
 
 			int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
 			for (int appWidgetID : ids) {
@@ -167,7 +161,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 
 		Intent receiver = new Intent(context, FlashlightWidgetReceiver.class);
 
-		receiver.setAction("COM_FLASHLIGHT");
+		receiver.setAction("gbernat.widget.flashlight.widget.intent.action.CHANGE_PICTURE");
 
 		receiver.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
 
@@ -186,8 +180,6 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 		int minHeight = options
 				.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
 
-		int columns = getCellsForSize(minWidth);
-
 		views.setViewVisibility(R.id.layoutOnOff, View.VISIBLE);
 
 		super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId,
@@ -198,7 +190,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 			int minHeight) {
 
 		int rows = getCellsForSize(minHeight);
-		int columns = 2;// getCellsForSize(minWidth);
+		int columns = 2;
 
 		return new RemoteViews(context.getPackageName(),
 				R.layout.ofappwidgetlay);

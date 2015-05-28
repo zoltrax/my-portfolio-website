@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import gbernat.flashlight.R;
+import gbernat.flashlight.Utils;
 import gbernat.flashlight.R.id;
 import gbernat.flashlight.R.layout;
 import gbernat.flashlight.activities.Main;
@@ -18,6 +19,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.hardware.SensorManager;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -63,6 +65,27 @@ public class AppWidgetProvider2 extends android.appwidget.AppWidgetProvider {
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
 
+		ComponentName thisAppWidget = new ComponentName(
+				context.getPackageName(), getClass().getName());
+		AppWidgetManager appWidgetManager = AppWidgetManager
+				.getInstance(context);
+		
+		Intent receiver = new Intent(context,
+				FlashlightWidgetReceiver.class);
+		
+		RemoteViews views = new RemoteViews(context.getPackageName(),
+				R.layout.ofappwidgetlay2);
+		receiver.setAction("gbernat.widget.flashlight.widget.intent.action.CHANGE_PICTURE");
+
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+				0, receiver, 0);
+		views.setOnClickPendingIntent(R.id.imageButton22, pendingIntent);
+		
+		int ids[] = appWidgetManager.getAppWidgetIds(thisAppWidget);
+		for (int appWidgetID : ids) {
+			appWidgetManager.updateAppWidget(appWidgetID, views);
+		}
+		
 	}
 
 	@Override
@@ -74,44 +97,29 @@ public class AppWidgetProvider2 extends android.appwidget.AppWidgetProvider {
 
 		RemoteViews views = new RemoteViews(context.getPackageName(),
 				R.layout.ofappwidgetlay2);
+		
+		Intent receiver = new Intent(context,
+				FlashlightWidgetReceiver.class);
+
+		receiver.setAction("gbernat.widget.flashlight.widget.intent.action.CHANGE_PICTURE");
+
+		receiver.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
+				0, receiver, 0);
+
+
+		views.setOnClickPendingIntent(R.id.imageButton22, pendingIntent);
 
 		int minWidth = options
 				.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
 		int minHeight = options
 				.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
 
-		int columns = getCellsForSize(minWidth);
 
 		appWidgetManager.updateAppWidget(appWidgetId, views);
 
 		super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId,
 				newOptions);
-	}
-
-	private RemoteViews getRemoteViews(Context context, int minWidth,
-			int minHeight) {
-
-		int rows = getCellsForSize(minHeight);
-		int columns = 2;
-
-		if (columns > 1) {
-
-			return new RemoteViews(context.getPackageName(),
-					R.layout.ofappwidgetlay2);
-
-		} else {
-
-			return new RemoteViews(context.getPackageName(),
-					R.layout.ofappwidgetlay2);
-		}
-	}
-
-	private static int getCellsForSize(int size) {
-		int n = 2;
-		while (70 * n - 30 < size) {
-			++n;
-		}
-		return n - 1;
 	}
 
 	public static void pushWidgetUpdate(Context context, RemoteViews remoteViews) {
@@ -136,10 +144,13 @@ public class AppWidgetProvider2 extends android.appwidget.AppWidgetProvider {
 
 		AlarmManager alarmManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
+		
+		
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(System.currentTimeMillis());
 		calendar.add(Calendar.SECOND, 2);
+		//alarmManager.setRepeating(type, triggerAtMillis, intervalMillis, operation);
 		alarmManager.setRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
 				5000, createClockTickIntent(context));
 	}
@@ -151,14 +162,6 @@ public class AppWidgetProvider2 extends android.appwidget.AppWidgetProvider {
 		AlarmManager alarmManager = (AlarmManager) context
 				.getSystemService(Context.ALARM_SERVICE);
 		alarmManager.cancel(createClockTickIntent(context));
-	}
-
-	public static PendingIntent buildButtonPendingIntent(Context context) {
-		Intent intent = new Intent();
-
-		intent.setAction("gbernat.widget.flashlight.widget.intent.action.CHANGE_PICTURE");
-		return PendingIntent.getBroadcast(context, 0, intent,
-				PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 
 }
