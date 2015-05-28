@@ -70,7 +70,6 @@ public class Main extends Activity implements OnClickListener {
 	Calendar now = Calendar.getInstance();
 	Calendar last = Calendar.getInstance();
 
-	// private static Camera camera;
 	private static Parameters parameters;
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
@@ -82,7 +81,6 @@ public class Main extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		// getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		powerManager = (PowerManager) getSystemService(POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
 				"MyWakelockTag");
@@ -130,7 +128,6 @@ public class Main extends Activity implements OnClickListener {
 				sendUpdateIntent(getApplicationContext());
 			}
 		});
-		Utils.pausedActiv = 0;
 
 	}
 
@@ -153,19 +150,6 @@ public class Main extends Activity implements OnClickListener {
 
 			if (Utils.cam == null) {
 				setFlashOn();
-				// Intent intent = new Intent(this,AppWidgetProvider2.class);
-				// intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-				// // Use an array and EXTRA_APPWIDGET_IDS instead of
-				// AppWidgetManager.EXTRA_APPWIDGET_ID,
-				// // since it seems the onUpdate() is only fired on that:
-				// //int[] ids = {21};
-				// int ids[] =
-				// AppWidgetManager.getInstance(getApplication()).getAppWidgetIds(new
-				// ComponentName(getApplication(), AppWidgetProvider2.class));
-				// for(int i=0;i<ids.length;i++){
-				// intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,ids[i]);
-				// sendBroadcast(intent);
-				// }
 				FlashlightWidgetReceiver.setOnOff(true);
 				sendUpdateIntent(getApplicationContext());
 			} else {
@@ -271,11 +255,6 @@ public class Main extends Activity implements OnClickListener {
 
 				@Override
 				public void onClick(View v) {
-					// WindowManager.LayoutParams params =
-					// getWindow().getAttributes();
-					// params.screenBrightness = 1;
-					// getWindow().setAttributes(params);
-					// TODO Auto-generated method stub
 					setting.setImageResource(R.drawable.setting_icon);
 					alertDialog.dismiss();
 				}
@@ -329,7 +308,6 @@ public class Main extends Activity implements OnClickListener {
 			sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 				public void onProgressChanged(SeekBar seekBar, int progress,
 						boolean fromUser) {
-					// Do something here with new value
 
 					float percent = progress * 5;
 
@@ -399,12 +377,11 @@ public class Main extends Activity implements OnClickListener {
 	private SurfaceHolder mHolder;
 
 	public void surfaceCreated(SurfaceHolder holder) {
-		// TODO Auto-generated method stub
 		mHolder = holder;
 		try {
 			Utils.cam.setPreviewDisplay(mHolder);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 		}
 
@@ -420,25 +397,25 @@ public class Main extends Activity implements OnClickListener {
 	@Override
 	public void onStop() {
 		super.onStop();
-		Utils.pausedActiv = 0;
+		// Utils.pausedActiv = 0;
 		mSensorManager.unregisterListener(mShakeDetector);
 
 	}
 
 	public void showDialog() {
 		AlertDialog alertDialog = new AlertDialog.Builder(Main.this).create();
-		// Setting Dialog Title
+
 		alertDialog.setTitle(getApplication().getString(R.string.app_name));
 
 		alertDialog.setMessage(getApplication().getString(
 				R.string.label_busy_camera));
-		// Setting OK Button
+
 		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				// Write your code here to execute after dialog closed
+
 			}
 		});
-		// Showing Alert Message
+
 		alertDialog.show();
 	}
 
@@ -450,7 +427,7 @@ public class Main extends Activity implements OnClickListener {
 		} else {
 			onOff.setImageResource(R.drawable.power_off);
 		}
-		Utils.pausedActiv = 0;
+		// Utils.pausedActiv = 0;
 		mSensorManager.registerListener(mShakeDetector, mAccelerometer,
 				SensorManager.SENSOR_DELAY_UI);
 	}
