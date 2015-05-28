@@ -22,7 +22,7 @@
         <activity
             android:name="gbernat.flashlight.activities.Main"
             android:label="@string/app_name"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,22 +33,21 @@
         <activity
             android:name="gbernat.flashlight.activities.StrobeLight"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:multiprocess="false"
             android:screenOrientation="portrait"
-              android:multiprocess="false"
-                android:launchMode="singleInstance"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name="gbernat.flashlight.activities.StrobeScreen"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
             android:multiprocess="false"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name="gbernat.flashlight.activities.ScreenFlashlight"
             android:label="@string/app_name"
-              android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
@@ -67,9 +66,9 @@
         <activity
             android:name="gbernat.flashlight.activities.MorseCode"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:multiprocess="false"
             android:screenOrientation="portrait"
-               android:launchMode="singleInstance"
             android:windowSoftInputMode="stateVisible|adjustResize" >
         </activity>
 
@@ -116,7 +115,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             
-            </activity>
+            </activity>
         -->
     </application>
 

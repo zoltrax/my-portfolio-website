@@ -59,8 +59,6 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 
 			Intent intent2 = new Intent(context, Main.class);
 
-			intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
 			PendingIntent pendingIntent2 = PendingIntent.getActivity(context,
 					0, intent2, 0);
 
@@ -82,45 +80,27 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		super.onReceive(context, intent);
-	
+
 		if (CLOCK_WIDGET_UPDATE.equals(intent.getAction())) {
 
 			ComponentName thisAppWidget = new ComponentName(
 					context.getPackageName(), getClass().getName());
 			AppWidgetManager appWidgetManager = AppWidgetManager
 					.getInstance(context);
-			Intent intent2;
-			if (Utils.pausedActiv == null) {
-				intent2 = new Intent(context, Main.class);
 
-			} else if (Utils.pausedActiv == 1) {
-
-				intent2 = new Intent(context, ScreenFlashlight.class);
-			} else if (Utils.pausedActiv == 2) {
-
-				intent2 = new Intent(context, StrobeLight.class);
-			} else if (Utils.pausedActiv == 3) {
-
-				intent2 = new Intent(context, MorseCode.class);
-			} else {
-
-				intent2 = new Intent(context, Main.class);
-			}
-
-			intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			Intent intent2 = new Intent(context, Main.class);
 
 			PendingIntent pendingIntent2 = PendingIntent.getActivity(context,
 					0, intent2, 0);
 			RemoteViews views = new RemoteViews(context.getPackageName(),
 					R.layout.ofappwidgetlay);
 			views.setOnClickPendingIntent(R.id.buttonGoToApp, pendingIntent2);
-			
+
 			Intent receiver = new Intent(context,
 					FlashlightWidgetReceiver.class);
 
 			receiver.setAction("gbernat.widget.flashlight.widget.intent.action.CHANGE_PICTURE");
 
-			//receiver.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetId);
 			PendingIntent pendingIntent = PendingIntent.getBroadcast(context,
 					0, receiver, 0);
 			views.setOnClickPendingIntent(R.id.imageButton2, pendingIntent);
@@ -169,6 +149,7 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 				receiver, 0);
 
 		Intent intent2 = new Intent(context, Main.class);
+
 		PendingIntent pendingIntent2 = PendingIntent.getActivity(context, 0,
 				intent2, 0);
 
@@ -249,10 +230,4 @@ public class AppWidgetProvider extends android.appwidget.AppWidgetProvider {
 				PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 
-	public static PendingIntent buildButtonPendingIntent2(Context context) {
-		Intent intent = new Intent(context, Main.class);
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, 0,
-				intent, 0);
-		return pendingIntent;
-	}
 }

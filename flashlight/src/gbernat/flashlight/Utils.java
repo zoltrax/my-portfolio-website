@@ -9,7 +9,6 @@ public class Utils extends Application {
 	private static Context context;
 	public static Camera cam;
 	public static boolean isRunning;
-	public static Integer pausedActiv;
 
     public void onCreate(){
         super.onCreate();

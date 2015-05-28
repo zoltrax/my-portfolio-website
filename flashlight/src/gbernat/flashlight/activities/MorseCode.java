@@ -63,7 +63,6 @@ import android.widget.ViewSwitcher.ViewFactory;
 public class MorseCode extends Activity {
 
 	private Handler mHandler = new Handler();
-	// private static Camera cam;
 	private static Parameters params;
 	private boolean isFlashOn = false;
 	private boolean mActive = false;
@@ -94,8 +93,6 @@ public class MorseCode extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.morse_code);
-
-		getActionBar().hide();
 
 		powerManager = (PowerManager) getSystemService(POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
@@ -192,8 +189,6 @@ public class MorseCode extends Activity {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if ((event.getAction() == KeyEvent.ACTION_DOWN)
 						&& (keyCode == KeyEvent.KEYCODE_ENTER)) {
-					Log.v("hee", "hee");
-					// submitView(v);
 					return true;
 				}
 				return false;
@@ -257,33 +252,28 @@ public class MorseCode extends Activity {
 					mSwap = false;
 
 					if (sos.charAt(lenght - 1) == '.') {
-						// Log.v("lenght", "1 " + lenght);
 						delay = 300;
 						flashLightOn();
-						Log.v("kropka", "kropka");
+						// Log.v("kropka", "kropka");
 					} else if (sos.charAt(lenght - 1) == ' ') {
-						// Log.v("lenght", "2 " + lenght);
 						delay = 900;
 						Log.v("brak znaku", "brak znaku");
 					} else if (sos.charAt(lenght - 1) == '-') {
-						// Log.v("lenght", "3 " + lenght);
 						delay = 900;
 						flashLightOn();
-						Log.v("kreska", "kreska");
-
+						// Log.v("kreska", "kreska");
 					} else {
-						// Log.v("lenght", "4 " + lenght);
 						delay = 2100;
 						params.setFlashMode(Parameters.FLASH_MODE_OFF);
 						Utils.cam.setParameters(params);
 						Utils.cam.stopPreview();
-						Log.v("is there something more", "no no no " + delay);
+						// Log.v("is there something more", "no no no " +
+						// delay);
 					}
 					mHandler.postDelayed(this, (delay / speed));
-					Log.v("lenght", "7 " + delay / speed);
 					lenght--;
 				} else {
-					Log.v("lenght", "6 " + delay / speed);
+
 					mSwap = true;
 
 					flashLightOff();
@@ -301,9 +291,7 @@ public class MorseCode extends Activity {
 	public void flashLightOn() {
 		try {
 			if (Utils.cam == null) {
-				Log.v("null", "null");
 				Utils.cam = Camera.open();
-				// params = Utils.cam.getParameters();
 			}
 		} catch (Exception e) {
 			showDialog();
@@ -323,7 +311,7 @@ public class MorseCode extends Activity {
 			if (Utils.cam == null) {
 				Log.v("null", "null");
 				Utils.cam = Camera.open();
-				// params = Utils.cam.getParameters();
+
 			}
 		} catch (Exception e) {
 			showDialog();
@@ -348,8 +336,7 @@ public class MorseCode extends Activity {
 		if (showMorseTextView.getText().toString().length() > 0) {
 			sos = new StringBuilder(showMorseTextView.getText().toString())
 					.reverse().toString().substring(1);
-			Log.v("sos", sos);
-			// sosFlag = false;
+
 			lenght = sos.length();
 			mActive = true;
 
@@ -362,9 +349,6 @@ public class MorseCode extends Activity {
 	}
 
 	public void sos(View v) {
-
-		// sosFlag = true;
-		Log.v("isRunning", "" + isRunning);
 
 		mHandler.removeCallbacks(mRunnable);
 		mHandler.removeCallbacksAndMessages(null);
@@ -383,7 +367,6 @@ public class MorseCode extends Activity {
 
 	public void stopLights(View v) {
 
-		Log.v("test", "test");
 		isFlashOn = false;
 
 		mActive = false;
@@ -429,7 +412,6 @@ public class MorseCode extends Activity {
 				speedText.setText(textToShow[currentIndex]);
 			}
 
-			// speedText.setText(textToShow[currentIndex]);
 			new Animate().execute();
 		}
 
@@ -501,7 +483,6 @@ public class MorseCode extends Activity {
 	public static StringBuffer stringConvert(String userString) {
 		String currentChar;
 		String getMorseChar;
-		// String convertedString = "";
 		StringBuffer convertedString2 = new StringBuffer();
 
 		for (int i = 0; i < userString.length(); i++) {
@@ -529,7 +510,7 @@ public class MorseCode extends Activity {
 						&& (convertedString2
 								.charAt(convertedString2.length() - 1) != ('|'))) {
 					convertedString2 = convertedString2.insert(
-							convertedString2.length(), ' ');// + " ";
+							convertedString2.length(), ' ');
 				}
 
 			}
@@ -639,10 +620,7 @@ public class MorseCode extends Activity {
 		}
 		FlashlightWidgetReceiver.setOnOff(false);
 		sendUpdateIntent(getApplicationContext());
-		Intent returnBtn = new Intent(getApplicationContext(), Main.class);
-		returnBtn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(returnBtn);
-		finish();
+		this.finish();
 
 	}
 
@@ -650,14 +628,11 @@ public class MorseCode extends Activity {
 		AlertDialog alertDialog = new AlertDialog.Builder(MorseCode.this)
 				.create();
 
-		// Setting Dialog Title
 		alertDialog.setTitle(getApplication().getString(R.string.app_name));
 
-		// Setting Dialog Message
 		alertDialog.setMessage(getApplication().getString(
 				R.string.label_busy_camera));
 
-		// Setting OK Button
 		alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 				// Write your code here to execute after dialog closed
@@ -665,7 +640,6 @@ public class MorseCode extends Activity {
 			}
 		});
 
-		// Showing Alert Message
 		alertDialog.show();
 
 	}
@@ -673,19 +647,12 @@ public class MorseCode extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
-		Utils.pausedActiv = 3;
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		/**
-		 * Release Camera
-		 */
-		// Log.v("morsePAUSE","MORSE");
-		// Utils.isRunning = false;
-		// Utils.pausedActiv = 3;
+
 	}
 
 	public class Translate extends AsyncTask<Void, Void, String> {
@@ -695,7 +662,6 @@ public class MorseCode extends Activity {
 			// TODO Auto-generated method stub
 			return stringConvert(messageEditText.getText().toString())
 					.toString();
-			// return null;
 		}
 
 		@Override

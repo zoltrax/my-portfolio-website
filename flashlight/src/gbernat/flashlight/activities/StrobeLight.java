@@ -38,7 +38,6 @@ import android.widget.ToggleButton;
 public class StrobeLight extends Activity implements OnClickListener {
 
 	Handler mHandler = new Handler();
-	// private static Camera cam;
 	private static Parameters params;
 	private boolean isFlashOn = false;
 	private boolean mActive = false;
@@ -78,7 +77,6 @@ public class StrobeLight extends Activity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.strobe_light);
-
 		powerManager = (PowerManager) getSystemService(POWER_SERVICE);
 		wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
 				"MyWakelockTag");
@@ -87,7 +85,6 @@ public class StrobeLight extends Activity implements OnClickListener {
 
 		try {
 			if (Utils.cam == null) {
-				Log.v("null", "null");
 				Utils.cam = Camera.open();
 				params = Utils.cam.getParameters();
 			}
@@ -147,25 +144,12 @@ public class StrobeLight extends Activity implements OnClickListener {
 		} catch (Exception e) {
 			showDialog();
 		}
-		// try{
 		params = Utils.cam.getParameters();
 		params.setFlashMode(Parameters.FLASH_MODE_TORCH);
 		Utils.cam.setParameters(params);
 		Utils.cam.startPreview();
 		isFlashOn = true;
-		// }catch(Exception e){
-
-		// }
 	}
-
-	// IntentFilter filter = new IntentFilter(reset);
-	// BroadcastReceiver receiver = new BroadcastReceiver() {
-	// @Override
-	// public void onReceive(Context context, Intent intent) {
-	// // DO YOUR STUFF
-	// Log.v("strobe","receive");
-	// }
-	// };
 
 	/*
 	 * This method turn off the LED camera flash light
@@ -188,9 +172,6 @@ public class StrobeLight extends Activity implements OnClickListener {
 		Utils.cam.stopPreview();
 		isFlashOn = false;
 
-		// }catch(Exception e){
-
-		// }
 	}
 
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -223,8 +204,6 @@ public class StrobeLight extends Activity implements OnClickListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Utils.pausedActiv = 2;
-		// Utils.isRunning = false;
 	}
 
 	@Override
@@ -239,7 +218,6 @@ public class StrobeLight extends Activity implements OnClickListener {
 		} catch (Exception e) {
 			showDialog();
 		}
-		Utils.pausedActiv = 2;
 
 	}
 
@@ -247,6 +225,7 @@ public class StrobeLight extends Activity implements OnClickListener {
 	public void onBackPressed() {
 
 		if (Utils.cam != null) {
+			params = Utils.cam.getParameters();
 			params.setFlashMode(Parameters.FLASH_MODE_OFF);
 			Utils.cam.setParameters(params);
 			mHandler.removeCallbacks(mRunnable);
@@ -254,26 +233,9 @@ public class StrobeLight extends Activity implements OnClickListener {
 			Utils.cam.release();
 			Utils.cam = null;
 		}
-		Intent returnBtn = new Intent(getApplicationContext(), Main.class);
-		returnBtn.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(returnBtn);
 		Utils.isRunning = false;
 		finish();
 	}
-
-	// public static void sendUpdateIntent(Context context)
-	// {
-	// Intent i = new Intent(context, AppWidgetProvider2.class);
-	// i.setAction(AppWidgetProvider2.block);
-	// context.sendBroadcast(i);
-	// }
-	//
-	// public static void sendUpdateIntent2(Context context)
-	// {
-	// Intent i = new Intent(context, AppWidgetProvider2.class);
-	// i.setAction(AppWidgetProvider2.unblock);
-	// context.sendBroadcast(i);
-	// }
 
 	@Override
 	public void onClick(View v) {
@@ -281,7 +243,6 @@ public class StrobeLight extends Activity implements OnClickListener {
 		if (v == onOff) {
 			if (onOff.isChecked()) {
 				startStrobe();
-				// sendUpdateIntent(getApplicationContext());
 			} else {
 				try {
 					params.setFlashMode(Parameters.FLASH_MODE_OFF);
@@ -293,7 +254,6 @@ public class StrobeLight extends Activity implements OnClickListener {
 				} catch (Exception e) {
 
 				}
-				// sendUpdateIntent2(getApplicationContext());
 			}
 
 		}
@@ -303,17 +263,17 @@ public class StrobeLight extends Activity implements OnClickListener {
 	public void showDialog() {
 		AlertDialog alertDialog = new AlertDialog.Builder(StrobeLight.this)
 				.create();
-		// Setting Dialog Title
+
 		alertDialog.setTitle(getApplication().getString(R.string.app_name));
-		// Setting Dialog Message
+
 		alertDialog.setMessage(getApplication().getString(
 				R.string.label_busy_camera));
-		// Setting OK Button
+
 		alertDialog.setButton(Dialog.BUTTON_NEUTRAL, "OK",
 				new DialogInterface.OnClickListener() {
 					public void onClick(final DialogInterface dialog,
 							final int which) {
-						// Write your code here to execute after dialog closed
+
 						finish();
 					}
 				});
