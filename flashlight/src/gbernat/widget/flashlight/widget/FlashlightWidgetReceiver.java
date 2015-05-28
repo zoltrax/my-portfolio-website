@@ -35,16 +35,6 @@ public class FlashlightWidgetReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 
-		ActivityManager activityManager = (ActivityManager) context
-				.getSystemService(context.ACTIVITY_SERVICE);
-		List<RunningAppProcessInfo> procInfos = activityManager
-				.getRunningAppProcesses();
-		for (int i = 0; i < procInfos.size(); i++) {
-			if (procInfos.get(i).processName.equals("gbernat.flashlight")) {
-
-			}
-		}
-
 		if (Utils.isRunning) {
 			updateWidgetPictureAndButtonListener3(context);
 		} else {
@@ -67,6 +57,7 @@ public class FlashlightWidgetReceiver extends BroadcastReceiver {
 				R.layout.ofappwidgetlay2);
 		RemoteViews remoteViews2 = new RemoteViews(context.getPackageName(),
 				R.layout.ofappwidgetlay);
+		
 
 		if (Utils.cam != null) {
 			Utils.cam.stopPreview();
